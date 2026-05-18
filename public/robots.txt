@@ -1,0 +1,6 @@
+# Allow all search engines to crawl our public pages
+User-agent: *
+Allow: /
+
+# Point to our official sitemap
+Sitemap: https://www.associum.ai/sitemap.xml
