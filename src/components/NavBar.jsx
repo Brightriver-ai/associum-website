@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { ButtonLink } from './ButtonLink';
 import styles from './NavBar.module.scss';
 import logoAsset from '../assets/shared/header-logo.webp';
@@ -23,8 +22,7 @@ function normalizePath(pathname) {
   return pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 }
 
-export function NavBar() {
-  const { pathname } = useLocation();
+export function NavBar({ pathname = '/' }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [companyMenuOpen, setCompanyMenuOpen] = useState(false);
@@ -99,10 +97,10 @@ export function NavBar() {
 
       <div className={styles.navBar}>
         <div className={styles.navRow}>
-          <Link className={styles.brand} to="/">
+          <a className={styles.brand} href="/">
             <img className={styles.brandIcon} src={logoAsset} alt="" />
             <span>Associum</span>
-          </Link>
+          </a>
 
           <nav className={styles.nav} aria-label="Primary">
             {navItems.map((item) => (
@@ -131,23 +129,23 @@ export function NavBar() {
                     aria-label="Company submenu"
                   >
                     {companyMenuItems.map((menuItem) => (
-                      <Link
+                      <a
                         key={menuItem.label}
-                        to={menuItem.href.startsWith('#') ? `/${menuItem.href}` : menuItem.href}
+                        href={menuItem.href.startsWith('#') ? `/${menuItem.href}` : menuItem.href}
                         className={styles.companyMenuItem}
                         role="menuitem"
                         onClick={closeMenu}
                       >
                         {menuItem.label}
-                      </Link>
+                      </a>
                     ))}
                   </div>
                 </div>
               ) : (
-                <Link 
-                  key={item.label} 
-                  className={`${styles.navItem} ${currentPath === normalizePath(item.href) ? styles.navItemActive : ''}`} 
-                  to={item.href.startsWith('#') ? `/${item.href}` : item.href}
+                <a
+                  key={item.label}
+                  className={`${styles.navItem} ${currentPath === normalizePath(item.href) ? styles.navItemActive : ''}`}
+                  href={item.href.startsWith('#') ? `/${item.href}` : item.href}
                   onClick={closeMenu}
                 >
                   <span>{item.label}</span>
@@ -155,7 +153,7 @@ export function NavBar() {
                   {currentPath === normalizePath(item.href) && (
                     <span className={styles.activeUnderline} aria-hidden="true" />
                   )}
-                </Link>
+                </a>
               )
             ))}
           </nav>
@@ -212,9 +210,9 @@ export function NavBar() {
                     }`}
                   >
                     {companyMenuItems.map((menuItem) => (
-                      <Link
+                      <a
                         key={typeof menuItem === 'string' ? menuItem : menuItem.label}
-                        to={
+                        href={
                           typeof menuItem === 'string'
                             ? `/#${menuItem.toLowerCase().replace(/\s+/g, '-')}`
                             : (menuItem.href.startsWith('#') ? `/${menuItem.href}` : menuItem.href)
@@ -223,18 +221,18 @@ export function NavBar() {
                         onClick={() => setMenuOpen(false)}
                       >
                         {typeof menuItem === 'string' ? menuItem : menuItem.label}
-                      </Link>
+                      </a>
                     ))}
                   </div>
                 </div>
               ) : (
-                <Link
+                <a
                   key={item.label}
-                  to={item.href.startsWith('#') ? `/${item.href}` : item.href}
+                  href={item.href.startsWith('#') ? `/${item.href}` : item.href}
                   onClick={closeMenu}
                 >
                   {item.label}
-                </Link>
+                </a>
               )
             ))}
           </nav>

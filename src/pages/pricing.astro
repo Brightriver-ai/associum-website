@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { PricingPage } from '../components/pages/PricingPage.jsx';
+---
+<Layout
+  title="Pricing — Associum"
+  description="Simple, output-based pricing with no seat limits. Pay only for the actual research, reports, and analytical work you run."
+  ogTitle="Pricing — Associum"
+  ogDescription="Simple, output-based pricing with no seat limits. Pay only for the actual research, reports, and analytical work you run."
+  canonical="/pricing"
+>
+  <PricingPage client:load />
+</Layout>

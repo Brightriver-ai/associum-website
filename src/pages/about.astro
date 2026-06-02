@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { AboutPage } from '../components/pages/AboutPage.jsx';
+---
+<Layout
+  title="About Us — Associum"
+  description="Meet the team behind Associum. We build tools to remove the production bottleneck for finance, consulting, accounting, and legal professionals."
+  ogTitle="About Us — Associum"
+  ogDescription="Meet the team behind Associum. We build tools to remove the production bottleneck for finance, consulting, accounting, and legal professionals."
+  canonical="/about"
+>
+  <AboutPage client:load />
+</Layout>
