@@ -20,49 +20,57 @@ deploys the exact commit the release tag points at.
 > Recommended: on the **`production`** environment, add a protection rule with **required
 > reviewers** (so a release waits for manual approval) and restrict deployments to **tags**.
 
-## One-time AWS setup (per environment — do this for staging *and* production)
+## Infrastructure (managed in `associo-iac`)
 
-1. **S3 bucket** — private bucket to hold the build output. Keep public access blocked; serve
-   it only through CloudFront using an **Origin Access Control (OAC)**.
-2. **CloudFront distribution** — origin = the S3 bucket (REST endpoint + OAC). Set the
-   **Default root object** to `index.html`.
-3. **Clean URLs** — the build emits `<route>.html` files (`build.format: 'file'`), but internal
-   links and canonical tags use clean paths (`/product`). Create a **CloudFront Function**
-   (viewer-request) from [infra/cloudfront-rewrite.js](infra/cloudfront-rewrite.js) and attach it
-   to the default behavior so `/product` resolves to `/product.html`.
-4. **404 handling** — add CloudFront **Custom Error Responses** for both `403` and `404`
-   (a private bucket behind OAC returns `403` for missing keys, since the deploy role has no
-   `s3:ListBucket`). Map each to response page `/404.html` with **HTTP response code `404`**:
-   - `403` → `/404.html` → response code `404`
-   - `404` → `/404.html` → response code `404`
-   - Error caching minimum TTL: keep short (e.g. 10–60s).
+The S3 buckets and CloudFront distributions live in Terraform: **`associo-iac` → `modules/website/`**,
+instantiated per environment under `environments/{staging,production}/`. That module already provides:
 
-   Use response code `404`, **not** `200` — returning the 404 page with a `200` status creates a
-   "soft 404" that hurts SEO. The `404.html` page itself carries `<meta name="robots" content="noindex">`
-   and no canonical tag.
-5. **GitHub OIDC role** — create one IAM role **per environment** that the GitHub Action can
-   assume via OIDC. Grant it `s3:PutObject`/`s3:DeleteObject`/`s3:ListBucket` on that
-   environment's bucket and `cloudfront:CreateInvalidation` on that distribution. No long-lived
-   AWS keys. Scope each role's trust policy to the matching environment, e.g. the `sub` claim
-   `repo:Brightriver-ai/associum-landing-page:environment:production` (and `:environment:staging`),
-   so the staging role can never deploy production and vice-versa.
+- Private S3 bucket per env: `associo-staging-website` / `associo-production-website` (served via OAI).
+- A `directory-index` **CloudFront Function** that resolves `/product` → `/product/index.html`. This is
+  why this site builds with **`build.format: 'directory'`** (and the `/404.html` page stays at the root).
+- **Custom error responses**: `403` and `404` → `/404.html` with response code **`404`** (a real 404,
+  not a soft-404 `200`). The `404.html` page itself is `noindex` and has no canonical tag.
+
+So there is **no infra to configure in this repo** — only the GitHub env vars below. The values come
+from the Terraform outputs: `website_bucket_name`, `website_cloudfront_distribution_id`, `website_url`.
+
+> **OIDC vs keys:** this workflow uses OIDC (`AWS_ROLE_ARN`). `associo-iac` does not yet define GitHub
+> OIDC roles for the website deploy (the existing `associo-frontend` pipeline uses access-key secrets).
+> Either add per-environment OIDC roles to `associo-iac` (preferred), or switch this workflow to
+> `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` to match the current pattern. See open item below.
 
 ## GitHub configuration
 
 Create two **Environments** under **Settings → Environments**: `staging` and `production`.
-Add the following to **each** environment (same names, different values) under its
-*Environment secrets* / *Environment variables*:
+Add the following to **each** environment (same names, different values). On **`production`**, also add
+a protection rule with **required reviewers** and restrict deployments to **tags**.
 
-| Kind     | Name                         | Example (staging)                         | Example (production)                  |
-| -------- | ---------------------------- | ----------------------------------------- | ------------------------------------- |
-| Secret   | `AWS_ROLE_ARN`               | `arn:aws:iam::…:role/associum-deploy-stg` | `arn:aws:iam::…:role/associum-deploy` |
-| Variable | `AWS_REGION`                 | `us-east-1`                               | `us-east-1`                           |
-| Variable | `S3_BUCKET`                  | `associum-landing-staging`                | `associum-landing-prod`               |
-| Variable | `CLOUDFRONT_DISTRIBUTION_ID` | `E…STAGING`                               | `E…PROD`                              |
-| Variable | `SITE_URL`                   | `https://staging.associum.ai`             | `https://www.associum.ai`             |
+| Kind     | Name                         | Example (staging)                          | Example (production)                       |
+| -------- | ---------------------------- | ------------------------------------------ | ------------------------------------------ |
+| Secret   | `AWS_ROLE_ARN`               | `arn:aws:iam::886436967287:role/…-stg`     | `arn:aws:iam::886436967287:role/…-prod`    |
+| Variable | `AWS_REGION`                 | `us-east-1`                                | `us-east-1`                                |
+| Variable | `S3_BUCKET`                  | `associo-staging-website`                  | `associo-production-website`               |
+| Variable | `CLOUDFRONT_DISTRIBUTION_ID` | `website_cloudfront_distribution_id` (stg) | `website_cloudfront_distribution_id` (prod)|
+| Variable | `SITE_URL`                   | staging `website_url` / `staging.associum.ai` | `https://www.associum.ai`               |
 
-`SITE_URL` is read by `astro.config.mjs` at build time so canonical/OG/sitemap URLs match the
-target environment.
+`SITE_URL` is read by `astro.config.mjs` so canonical/OG/sitemap URLs match the environment. Until a
+custom domain is attached to the website distribution, use its `*.cloudfront.net` `website_url` output.
+
+## SEO, sitemap & staging lockdown
+
+- **Sitemap** — generated by `@astrojs/sitemap` at build (`/sitemap-index.xml` + `/sitemap-0.xml`),
+  based on `site` (the env's `SITE_URL`). The 404 is excluded. The old hand-maintained
+  `public/sitemap.xml` was removed.
+- **robots.txt** — generated dynamically (`src/pages/robots.txt.js`):
+  - **production** → `Allow: /` + `Sitemap: <site>/sitemap-index.xml`
+  - **staging / any non-prod** → `Disallow: /`
+- **Indexing** — only **production** is indexable. Non-prod builds get a site-wide
+  `<meta name="robots" content="noindex, nofollow">` (driven by `DEPLOY_ENV`, set by the workflow).
+- **Staging hardening (in `associo-iac`)** — robots + meta cover crawlers, but the robust belt is an
+  `X-Robots-Tag: noindex, nofollow` response header (and optionally HTTP basic auth) on the **staging**
+  website distribution, so even non-HTML assets and direct hits are never indexed. Add this to the
+  staging instantiation of `modules/website` (a `aws_cloudfront_response_headers_policy`). Production
+  gets the security-headers policy instead.
 
 ## Caching
 
