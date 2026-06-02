@@ -17,6 +17,7 @@ const {
   ogSiteName = 'Associum',
   canonical,
   preloadImages = [],
+  noindex = false,
 } = Astro.props;
 
 // Astro.url.pathname includes a trailing ".html" under build.format: 'file'
@@ -59,6 +60,7 @@ const ogUrl = fullCanonical ?? `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     {fullCanonical && <link rel="canonical" href={fullCanonical} />}
 
     {/* Open Graph / Facebook */}

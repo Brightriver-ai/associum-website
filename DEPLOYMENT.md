@@ -14,8 +14,16 @@ workflow builds with pnpm, syncs `dist/` to S3, and invalidates the CloudFront c
    links and canonical tags use clean paths (`/product`). Create a **CloudFront Function**
    (viewer-request) from [infra/cloudfront-rewrite.js](infra/cloudfront-rewrite.js) and attach it
    to the default behavior so `/product` resolves to `/product.html`.
-4. **404 handling** — add a **Custom Error Response**: HTTP error code `404` →
-   response page path `/404.html` → HTTP response code `404`.
+4. **404 handling** — add CloudFront **Custom Error Responses** for both `403` and `404`
+   (a private bucket behind OAC returns `403` for missing keys, since the deploy role has no
+   `s3:ListBucket`). Map each to response page `/404.html` with **HTTP response code `404`**:
+   - `403` → `/404.html` → response code `404`
+   - `404` → `/404.html` → response code `404`
+   - Error caching minimum TTL: keep short (e.g. 10–60s).
+
+   Use response code `404`, **not** `200` — returning the 404 page with a `200` status creates a
+   "soft 404" that hurts SEO. The `404.html` page itself carries `<meta name="robots" content="noindex">`
+   and no canonical tag.
 5. **GitHub OIDC role** — create an IAM role the GitHub Action can assume via OIDC
    (trust policy scoped to this repo). Grant it `s3:PutObject`/`s3:DeleteObject`/`s3:ListBucket`
    on the bucket and `cloudfront:CreateInvalidation` on the distribution. No long-lived AWS keys.
