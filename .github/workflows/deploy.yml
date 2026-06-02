@@ -1,23 +1,36 @@
-name: Deploy to S3 + CloudFront
+name: Deploy
 
+# Merge to main  -> deploy to the `staging` environment
+# Publish a Release -> deploy to the `production` environment
 on:
   push:
     branches: [main]
+  release:
+    types: [published]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy
+        type: choice
+        options: [staging, production]
+        default: staging
 
 # Required for requesting the OIDC JWT used to assume the AWS deploy role
 permissions:
   id-token: write
   contents: read
 
+# Pick the target environment from the trigger. Environment-scoped secrets/vars
+# (AWS_ROLE_ARN, AWS_REGION, S3_BUCKET, CLOUDFRONT_DISTRIBUTION_ID, SITE_URL)
+# resolve automatically from whichever environment is selected.
 concurrency:
-  group: deploy-production
-  cancel-in-progress: true
+  group: deploy-${{ github.event_name == 'release' && 'production' || (github.event.inputs.environment || 'staging') }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: ${{ github.event_name == 'release' && 'production' || (github.event.inputs.environment || 'staging') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,6 +50,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          # Selected environment name; Layout.astro uses it to noindex non-prod builds.
+          DEPLOY_ENV: ${{ github.event_name == 'release' && 'production' || (github.event.inputs.environment || 'staging') }}
         run: pnpm build
 
       - name: Configure AWS credentials

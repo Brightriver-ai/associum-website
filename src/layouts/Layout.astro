@@ -4,7 +4,13 @@ import { NavBar } from '../components/NavBar.jsx';
 import { Footer } from '../components/Footer.jsx';
 import '../styles/global.scss';
 
-const SITE_URL = 'https://www.associum.ai';
+// Derived from `site` in astro.config (driven by SITE_URL per environment).
+const SITE_URL = (Astro.site?.href ?? 'https://www.associum.ai/').replace(/\/$/, '');
+
+// Only production should be indexable. DEPLOY_ENV is set by CI; local builds
+// default to production (indexable). Non-production builds (e.g. staging) get a
+// site-wide noindex so they never compete with prod in search results.
+const isProduction = (process.env.DEPLOY_ENV ?? 'production') === 'production';
 
 const {
   title,
@@ -60,7 +66,9 @@ const ogUrl = fullCanonical ?? `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {(noindex || !isProduction) && (
+      <meta name="robots" content={isProduction ? 'noindex, follow' : 'noindex, nofollow'} />
+    )}
     {fullCanonical && <link rel="canonical" href={fullCanonical} />}
 
     {/* Open Graph / Facebook */}

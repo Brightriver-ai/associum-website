@@ -1,10 +1,26 @@
 # Deployment
 
 The site is a **static Astro build** deployed to **AWS S3 + CloudFront** via GitHub Actions
-([.github/workflows/deploy.yml](.github/workflows/deploy.yml)). On every push to `main`, the
-workflow builds with pnpm, syncs `dist/` to S3, and invalidates the CloudFront cache.
+([.github/workflows/deploy.yml](.github/workflows/deploy.yml)).
 
-## One-time AWS setup
+## Environments & triggers
+
+There are two GitHub **Environments**, each backed by its own S3 bucket + CloudFront distribution:
+
+| Trigger                          | Environment  | Goes live at        |
+| -------------------------------- | ------------ | ------------------- |
+| Push / merge to `main`           | `staging`    | staging domain      |
+| Publish a GitHub **Release**     | `production` | production domain   |
+| Manual `workflow_dispatch`       | your choice  | —                   |
+
+The same workflow handles both; it selects the environment from the trigger, so the
+environment-scoped secrets/variables resolve to the right values automatically. A release
+deploys the exact commit the release tag points at.
+
+> Recommended: on the **`production`** environment, add a protection rule with **required
+> reviewers** (so a release waits for manual approval) and restrict deployments to **tags**.
+
+## One-time AWS setup (per environment — do this for staging *and* production)
 
 1. **S3 bucket** — private bucket to hold the build output. Keep public access blocked; serve
    it only through CloudFront using an **Origin Access Control (OAC)**.
@@ -24,21 +40,29 @@ workflow builds with pnpm, syncs `dist/` to S3, and invalidates the CloudFront c
    Use response code `404`, **not** `200` — returning the 404 page with a `200` status creates a
    "soft 404" that hurts SEO. The `404.html` page itself carries `<meta name="robots" content="noindex">`
    and no canonical tag.
-5. **GitHub OIDC role** — create an IAM role the GitHub Action can assume via OIDC
-   (trust policy scoped to this repo). Grant it `s3:PutObject`/`s3:DeleteObject`/`s3:ListBucket`
-   on the bucket and `cloudfront:CreateInvalidation` on the distribution. No long-lived AWS keys.
+5. **GitHub OIDC role** — create one IAM role **per environment** that the GitHub Action can
+   assume via OIDC. Grant it `s3:PutObject`/`s3:DeleteObject`/`s3:ListBucket` on that
+   environment's bucket and `cloudfront:CreateInvalidation` on that distribution. No long-lived
+   AWS keys. Scope each role's trust policy to the matching environment, e.g. the `sub` claim
+   `repo:Brightriver-ai/associum-landing-page:environment:production` (and `:environment:staging`),
+   so the staging role can never deploy production and vice-versa.
 
-## GitHub repo configuration
+## GitHub configuration
 
-Set these under **Settings → Secrets and variables → Actions**. The workflow targets a
-`production` environment, so add them there (or as repo-level secrets/vars).
+Create two **Environments** under **Settings → Environments**: `staging` and `production`.
+Add the following to **each** environment (same names, different values) under its
+*Environment secrets* / *Environment variables*:
 
-| Kind     | Name                         | Example                                            |
-| -------- | ---------------------------- | -------------------------------------------------- |
-| Secret   | `AWS_ROLE_ARN`               | `arn:aws:iam::123456789012:role/associum-deploy`   |
-| Variable | `AWS_REGION`                 | `us-east-1`                                         |
-| Variable | `S3_BUCKET`                  | `associum-landing-prod`                            |
-| Variable | `CLOUDFRONT_DISTRIBUTION_ID` | `E1ABCDEF2GHIJ`                                     |
+| Kind     | Name                         | Example (staging)                         | Example (production)                  |
+| -------- | ---------------------------- | ----------------------------------------- | ------------------------------------- |
+| Secret   | `AWS_ROLE_ARN`               | `arn:aws:iam::…:role/associum-deploy-stg` | `arn:aws:iam::…:role/associum-deploy` |
+| Variable | `AWS_REGION`                 | `us-east-1`                               | `us-east-1`                           |
+| Variable | `S3_BUCKET`                  | `associum-landing-staging`                | `associum-landing-prod`               |
+| Variable | `CLOUDFRONT_DISTRIBUTION_ID` | `E…STAGING`                               | `E…PROD`                              |
+| Variable | `SITE_URL`                   | `https://staging.associum.ai`             | `https://www.associum.ai`             |
+
+`SITE_URL` is read by `astro.config.mjs` at build time so canonical/OG/sitemap URLs match the
+target environment.
 
 ## Caching
 
