@@ -34,10 +34,10 @@ instantiated per environment under `environments/{staging,production}/`. That mo
 So there is **no infra to configure in this repo** — only the GitHub env vars below. The values come
 from the Terraform outputs: `website_bucket_name`, `website_cloudfront_distribution_id`, `website_url`.
 
-> **OIDC vs keys:** this workflow uses OIDC (`AWS_ROLE_ARN`). `associo-iac` does not yet define GitHub
-> OIDC roles for the website deploy (the existing `associo-frontend` pipeline uses access-key secrets).
-> Either add per-environment OIDC roles to `associo-iac` (preferred), or switch this workflow to
-> `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` to match the current pattern. See open item below.
+> **AWS auth:** this workflow uses **access keys** (`AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`,
+> region hard-coded to `us-east-1`), matching the existing `associo-frontend` pipeline. If `associo-iac`
+> later adds per-environment GitHub OIDC roles, swap the *Configure AWS credentials* step to
+> `role-to-assume` and drop the key secrets.
 
 ## GitHub configuration
 
@@ -47,14 +47,15 @@ a protection rule with **required reviewers** and restrict deployments to **tags
 
 | Kind     | Name                         | Example (staging)                          | Example (production)                       |
 | -------- | ---------------------------- | ------------------------------------------ | ------------------------------------------ |
-| Secret   | `AWS_ROLE_ARN`               | `arn:aws:iam::886436967287:role/…-stg`     | `arn:aws:iam::886436967287:role/…-prod`    |
-| Variable | `AWS_REGION`                 | `us-east-1`                                | `us-east-1`                                |
+| Secret   | `AWS_ACCESS_KEY_ID`          | _(staging deploy key)_                     | _(production deploy key)_                  |
+| Secret   | `AWS_SECRET_ACCESS_KEY`      | _(staging deploy secret)_                  | _(production deploy secret)_               |
 | Variable | `S3_BUCKET`                  | `associo-staging-website`                  | `associo-production-website`               |
 | Variable | `CLOUDFRONT_DISTRIBUTION_ID` | `website_cloudfront_distribution_id` (stg) | `website_cloudfront_distribution_id` (prod)|
 | Variable | `SITE_URL`                   | staging `website_url` / `staging.associum.ai` | `https://www.associum.ai`               |
 
 `SITE_URL` is read by `astro.config.mjs` so canonical/OG/sitemap URLs match the environment. Until a
 custom domain is attached to the website distribution, use its `*.cloudfront.net` `website_url` output.
+Region is fixed to `us-east-1` in the workflow (as in `associo-frontend`).
 
 ## SEO, sitemap & staging lockdown
 

@@ -15,14 +15,12 @@ on:
         options: [staging, production]
         default: staging
 
-# Required for requesting the OIDC JWT used to assume the AWS deploy role
 permissions:
-  id-token: write
   contents: read
 
 # Pick the target environment from the trigger. Environment-scoped secrets/vars
-# (AWS_ROLE_ARN, AWS_REGION, S3_BUCKET, CLOUDFRONT_DISTRIBUTION_ID, SITE_URL)
-# resolve automatically from whichever environment is selected.
+# (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET, CLOUDFRONT_DISTRIBUTION_ID,
+# SITE_URL) resolve automatically from whichever environment is selected.
 concurrency:
   group: deploy-${{ github.event_name == 'release' && 'production' || (github.event.inputs.environment || 'staging') }}
   cancel-in-progress: ${{ github.event_name == 'push' }}
@@ -43,7 +41,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '22.9.0'
           cache: pnpm
 
       - name: Install dependencies
@@ -52,15 +50,18 @@ jobs:
       - name: Build
         env:
           SITE_URL: ${{ vars.SITE_URL }}
-          # Selected environment name; Layout.astro uses it to noindex non-prod builds.
+          # Selected environment name; Astro uses it to noindex non-prod builds.
           DEPLOY_ENV: ${{ github.event_name == 'release' && 'production' || (github.event.inputs.environment || 'staging') }}
         run: pnpm build
 
+      # Matches the associo-frontend pipeline: access keys + us-east-1, scoped per
+      # GitHub Environment. (Swap to OIDC later if associo-iac adds deploy roles.)
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
       - name: Sync to S3
         env:
