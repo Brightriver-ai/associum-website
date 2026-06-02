@@ -1,21 +1,16 @@
 # Deployment
 
-The site is a **static Astro build** deployed to **AWS S3 + CloudFront** via GitHub Actions
-([.github/workflows/deploy.yml](.github/workflows/deploy.yml)).
+The site is a **static Astro build** deployed to **AWS S3 + CloudFront** via GitHub Actions.
+Following the `associo-frontend` pipeline, there are **two workflow files**, one per environment:
 
-## Environments & triggers
+| Workflow                                                                   | Trigger                       | Environment  |
+| -------------------------------------------------------------------------- | ----------------------------- | ------------ |
+| [deploy-staging.yml](.github/workflows/deploy-staging.yml)                 | Push / merge to `main`        | `staging`    |
+| [deploy-production.yml](.github/workflows/deploy-production.yml)           | Publish a GitHub **Release**  | `production` |
 
-There are two GitHub **Environments**, each backed by its own S3 bucket + CloudFront distribution:
-
-| Trigger                          | Environment  | Goes live at        |
-| -------------------------------- | ------------ | ------------------- |
-| Push / merge to `main`           | `staging`    | staging domain      |
-| Publish a GitHub **Release**     | `production` | production domain   |
-| Manual `workflow_dispatch`       | your choice  | —                   |
-
-The same workflow handles both; it selects the environment from the trigger, so the
-environment-scoped secrets/variables resolve to the right values automatically. A release
-deploys the exact commit the release tag points at.
+Each also supports manual `workflow_dispatch`. A release build deploys the exact commit the
+release tag points at. Each job is scoped to its GitHub **Environment**, which is where the
+matching secrets/variables live.
 
 > Recommended: on the **`production`** environment, add a protection rule with **required
 > reviewers** (so a release waits for manual approval) and restrict deployments to **tags**.
@@ -49,13 +44,14 @@ a protection rule with **required reviewers** and restrict deployments to **tags
 | -------- | ---------------------------- | ------------------------------------------ | ------------------------------------------ |
 | Secret   | `AWS_ACCESS_KEY_ID`          | _(staging deploy key)_                     | _(production deploy key)_                  |
 | Secret   | `AWS_SECRET_ACCESS_KEY`      | _(staging deploy secret)_                  | _(production deploy secret)_               |
-| Variable | `S3_BUCKET`                  | `associo-staging-website`                  | `associo-production-website`               |
-| Variable | `CLOUDFRONT_DISTRIBUTION_ID` | `website_cloudfront_distribution_id` (stg) | `website_cloudfront_distribution_id` (prod)|
+| Secret   | `WEBSITE_BUCKET_NAME`        | `associo-staging-website`                  | `associo-production-website`               |
+| Secret   | `CLOUDFRONT_DISTRIBUTION_ID` | `website_cloudfront_distribution_id` (stg) | `website_cloudfront_distribution_id` (prod)|
 | Variable | `SITE_URL`                   | staging `website_url` / `staging.associum.ai` | `https://www.associum.ai`               |
 
-`SITE_URL` is read by `astro.config.mjs` so canonical/OG/sitemap URLs match the environment. Until a
-custom domain is attached to the website distribution, use its `*.cloudfront.net` `website_url` output.
-Region is fixed to `us-east-1` in the workflow (as in `associo-frontend`).
+This mirrors `associo-frontend`: AWS keys + bucket + distribution as **secrets**, region fixed to
+`us-east-1` in the workflows. `SITE_URL` is a **variable** read by `astro.config.mjs` so canonical/OG/
+sitemap URLs match the environment. Until a custom domain is attached to the website distribution, use
+its `*.cloudfront.net` `website_url` output.
 
 ## SEO, sitemap & staging lockdown
 
