@@ -8,8 +8,8 @@ import { ProductComparisonSection } from '../ProductComparisonSection';
 import { ProductBeforeAfterSection } from '../ProductBeforeAfterSection';
 import { ProductCtaSection } from '../ProductCtaSection';
 import styles from './ProductPage.module.scss';
-import heroBackground from '../../assets/product/product-hero-background.webp';
-import heroVisual from '../../assets/product/product-hero-visual.webp';
+import heroBackground from '../../assets/product/product-hero-background.webp?url';
+import heroVisual from '../../assets/product/product-hero-visual.webp?url';
 
 const containerVariants = {
   hidden: { opacity: 0 },

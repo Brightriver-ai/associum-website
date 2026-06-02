@@ -1,15 +1,15 @@
 import React from 'react';
 import { Container } from './Container';
 import styles from './SampleOutputsSection.module.scss';
-import pdfViewerIcon from '../assets/homepage/pdf_viewer.svg';
-import equityHoverAsset from '../assets/homepage/equity-hover.svg';
-import equityNormalAsset from '../assets/homepage/equity-normal.svg';
-import strategyHoverAsset from '../assets/homepage/strategy-hover.svg';
-import strategyNormalAsset from '../assets/homepage/strategy-normal.svg';
-import standardHoverAsset from '../assets/homepage/standard-hover.svg';
-import standardNormalAsset from '../assets/homepage/standard-normal.svg';
-import complianceHoverAsset from '../assets/homepage/compliance-hover.svg';
-import complianceNormalAsset from '../assets/homepage/compliance-normal.svg';
+import pdfViewerIcon from '../assets/homepage/pdf_viewer.svg?url';
+import equityHoverAsset from '../assets/homepage/equity-hover.svg?url';
+import equityNormalAsset from '../assets/homepage/equity-normal.svg?url';
+import strategyHoverAsset from '../assets/homepage/strategy-hover.svg?url';
+import strategyNormalAsset from '../assets/homepage/strategy-normal.svg?url';
+import standardHoverAsset from '../assets/homepage/standard-hover.svg?url';
+import standardNormalAsset from '../assets/homepage/standard-normal.svg?url';
+import complianceHoverAsset from '../assets/homepage/compliance-hover.svg?url';
+import complianceNormalAsset from '../assets/homepage/compliance-normal.svg?url';
 
 const sampleCards = [
   {

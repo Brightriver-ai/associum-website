@@ -2,10 +2,10 @@ import React from 'react';
 import { Container } from './Container';
 import styles from './ContactSupportSection.module.scss';
 
-import chevronDown from '../assets/contact/contact-chevron-down.svg';
-import salesIcon from '../assets/contact/contact-sales-icon.svg';
-import linkedinIcon from '../assets/contact/contact-linkedin-icon.svg';
-import xIcon from '../assets/contact/contact-x-icon.svg';
+import chevronDown from '../assets/contact/contact-chevron-down.svg?url';
+import salesIcon from '../assets/contact/contact-sales-icon.svg?url';
+import linkedinIcon from '../assets/contact/contact-linkedin-icon.svg?url';
+import xIcon from '../assets/contact/contact-x-icon.svg?url';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const containerVariants = {

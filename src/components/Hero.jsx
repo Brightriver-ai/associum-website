@@ -8,7 +8,7 @@ import styles from './Hero.module.scss';
 const heroBackground = '/Hero Section.webp';
 import heroVideo from '../assets/homepage/video.webm';
 const heroPreview = '/hero-preview.webp';
-import heroCardMask from '../assets/homepage/hero-card-mask.svg';
+import heroCardMask from '../assets/homepage/hero-card-mask.svg?url';
 import { motion } from 'framer-motion';
 
 const containerVariants = {

@@ -2,13 +2,13 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Container } from './Container';
 import styles from './ProductAutomationSection.module.scss';
-import dotsAsset from '../assets/product/automation-stage-dots.svg';
-import memoIcon from '../assets/product/automation-memo.svg';
-import deliverableIcon from '../assets/product/automation-deliverable.svg';
-import ringOuter from '../assets/product/automation-ring-outer.svg';
-import ringMiddle from '../assets/product/automation-ring-middle.svg';
-import ringInner from '../assets/product/automation-ring-inner.svg';
-import logoAsset from '../assets/product/automation-logo-core.svg';
+import dotsAsset from '../assets/product/automation-stage-dots.svg?url';
+import memoIcon from '../assets/product/automation-memo.svg?url';
+import deliverableIcon from '../assets/product/automation-deliverable.svg?url';
+import ringOuter from '../assets/product/automation-ring-outer.svg?url';
+import ringMiddle from '../assets/product/automation-ring-middle.svg?url';
+import ringInner from '../assets/product/automation-ring-inner.svg?url';
+import logoAsset from '../assets/product/automation-logo-core.svg?url';
 
 const automationBullets = [
   'IC memos, consulting deliverables, research briefs, and compliance reports completed at professional standard in your templates.',

@@ -2,11 +2,11 @@ import React from 'react';
 import { Container } from './Container';
 import { ScrollReveal } from './ScrollReveal';
 import styles from './ProductComparisonSection.module.scss';
-import associumIcon from '../assets/product/comparison-associum-logo.webp';
-import negativeIcon from '../assets/product/cross.svg';
-import positiveIcon from '../assets/product/tick.svg';
-import vsLeftRibbon from '../assets/product/comparison-vs-left.svg';
-import vsRightRibbon from '../assets/product/comparison-vs-right.svg';
+import associumIcon from '../assets/product/comparison-associum-logo.webp?url';
+import negativeIcon from '../assets/product/cross.svg?url';
+import positiveIcon from '../assets/product/tick.svg?url';
+import vsLeftRibbon from '../assets/product/comparison-vs-left.svg?url';
+import vsRightRibbon from '../assets/product/comparison-vs-right.svg?url';
 
 const comparisonRows = [
   {

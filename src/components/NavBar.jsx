@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ButtonLink } from './ButtonLink';
 import styles from './NavBar.module.scss';
-import logoAsset from '../assets/shared/header-logo.webp';
-import caretAsset from '../assets/shared/header-caret.svg';
+import logoAsset from '../assets/shared/header-logo.webp?url';
+import caretAsset from '../assets/shared/header-caret.svg?url';
 
 const navItems = [
   { label: 'Home', href: '/' },

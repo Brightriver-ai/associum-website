@@ -8,8 +8,8 @@ import { AboutPrinciplesSection } from '../AboutPrinciplesSection';
 import { AboutTeamSection } from '../AboutTeamSection';
 import { AboutWhoBuiltSection } from '../AboutWhoBuiltSection';
 import styles from './AboutPage.module.scss';
-import heroTexture from '../../assets/about/about-hero-texture.webp';
-import heroGlow from '../../assets/about/about-hero-glow.webp';
+import heroTexture from '../../assets/about/about-hero-texture.webp?url';
+import heroGlow from '../../assets/about/about-hero-glow.webp?url';
 
 const containerVariants = {
   hidden: { opacity: 0 },

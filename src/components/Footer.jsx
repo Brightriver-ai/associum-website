@@ -2,12 +2,12 @@ import React from 'react';
 import { Container } from './Container';
 import styles from './Footer.module.scss';
 
-import logoIcon from '../assets/footer/footer-logo.webp';
-import isoBadge from '../assets/footer/footer-iso-badge.svg';
-import aicpaLogo from '../assets/footer/aicpa.webp';
-import linkedinIcon from '../assets/footer/footer-linkedin.svg';
-import xIcon from '../assets/footer/footer-x.svg';
-import watermarkIcon from '../assets/footer/footer-watermark.svg';
+import logoIcon from '../assets/footer/footer-logo.webp?url';
+import isoBadge from '../assets/footer/footer-iso-badge.svg?url';
+import aicpaLogo from '../assets/footer/aicpa.webp?url';
+import linkedinIcon from '../assets/footer/footer-linkedin.svg?url';
+import xIcon from '../assets/footer/footer-x.svg?url';
+import watermarkIcon from '../assets/footer/footer-watermark.svg?url';
 
 const footerColumns = [
   {

@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 import { PageTransition } from '../PageTransition';
 import { Container } from '../Container';
 import styles from './SecurityPage.module.scss';
-import heroBackground from '../../assets/security/security-hero-background.webp';
-import heroOverlay from '../../assets/security/security-hero-overlay.webp';
-import isoBadge from '../../assets/security/security-iso-badge.webp';
-import socBadge from '../../assets/security/security-soc-badge.webp';
-import trustCenterImage from '../../assets/security/security-trust-center.webp';
-import metricsBackground from '../../assets/security/security-metrics-background.webp';
+import heroBackground from '../../assets/security/security-hero-background.webp?url';
+import heroOverlay from '../../assets/security/security-hero-overlay.webp?url';
+import isoBadge from '../../assets/security/security-iso-badge.webp?url';
+import socBadge from '../../assets/security/security-soc-badge.webp?url';
+import trustCenterImage from '../../assets/security/security-trust-center.webp?url';
+import metricsBackground from '../../assets/security/security-metrics-background.webp?url';
 import { CtaBanner } from '../CtaBanner';
 
 const containerVariants = {
@@ -34,19 +34,19 @@ const itemVariants = {
   },
 };
 
-import noTrainingIcon from '../../assets/security/icons/security-no-training.svg';
-import encryptionIcon from '../../assets/security/icons/security-encryption.svg';
-import zeroRetentionIcon from '../../assets/security/icons/security-zero-retention.svg';
-import complianceIcon from '../../assets/security/icons/security-compliance.svg';
+import noTrainingIcon from '../../assets/security/icons/security-no-training.svg?url';
+import encryptionIcon from '../../assets/security/icons/security-encryption.svg?url';
+import zeroRetentionIcon from '../../assets/security/icons/security-zero-retention.svg?url';
+import complianceIcon from '../../assets/security/icons/security-compliance.svg?url';
 
-import monitoringIcon from '../../assets/security/icons/checklist-monitoring.svg';
-import gdprIcon from '../../assets/security/icons/checklist-gdpr.svg';
-import ssoIcon from '../../assets/security/icons/checklist-sso.svg';
-import pentestIcon from '../../assets/security/icons/checklist-pentest.svg';
-import firewallIcon from '../../assets/security/icons/checklist-firewall.svg';
-import rbacIcon from '../../assets/security/icons/checklist-rbac.svg';
-import auditIcon from '../../assets/security/icons/checklist-audit.svg';
-import incidentIcon from '../../assets/security/icons/checklist-incident.svg';
+import monitoringIcon from '../../assets/security/icons/checklist-monitoring.svg?url';
+import gdprIcon from '../../assets/security/icons/checklist-gdpr.svg?url';
+import ssoIcon from '../../assets/security/icons/checklist-sso.svg?url';
+import pentestIcon from '../../assets/security/icons/checklist-pentest.svg?url';
+import firewallIcon from '../../assets/security/icons/checklist-firewall.svg?url';
+import rbacIcon from '../../assets/security/icons/checklist-rbac.svg?url';
+import auditIcon from '../../assets/security/icons/checklist-audit.svg?url';
+import incidentIcon from '../../assets/security/icons/checklist-incident.svg?url';
 
 const securityHighlights = [
   [

@@ -5,8 +5,8 @@ import { ContactSupportSection } from '../ContactSupportSection';
 import { Container } from '../Container';
 import { CtaBanner } from '../CtaBanner';
 import styles from './ContactPage.module.scss';
-import heroTexture from '../../assets/about/about-hero-texture.webp';
-import heroGlow from '../../assets/about/about-hero-glow.webp';
+import heroTexture from '../../assets/about/about-hero-texture.webp?url';
+import heroGlow from '../../assets/about/about-hero-glow.webp?url';
 import { motion } from 'framer-motion';
 
 const containerVariants = {

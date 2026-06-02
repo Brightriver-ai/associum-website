@@ -9,8 +9,8 @@ import { PricingPlansSection } from '../PricingPlansSection';
 import { PricingTopUpSection } from '../PricingTopUpSection';
 import styles from './PricingPage.module.scss';
 
-import heroTexture from '../../assets/pricing/pricing-hero-texture.webp';
-import heroGlow from '../../assets/pricing/pricing-hero-glow.webp';
+import heroTexture from '../../assets/pricing/pricing-hero-texture.webp?url';
+import heroGlow from '../../assets/pricing/pricing-hero-glow.webp?url';
 import { motion } from 'framer-motion';
 
 const containerVariants = {

@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Container } from '../Container';
 import styles from './TermsOfServicePage.module.scss';
-import heroTexture from '../../assets/about/about-hero-texture.webp';
-import heroGlow from '../../assets/about/about-hero-glow.webp';
+import heroTexture from '../../assets/about/about-hero-texture.webp?url';
+import heroGlow from '../../assets/about/about-hero-glow.webp?url';
 
 const containerVariants = {
   hidden: { opacity: 0 },

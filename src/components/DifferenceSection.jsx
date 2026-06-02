@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Container } from './Container';
 import styles from './DifferenceSection.module.scss';
-import metricsBackground from '../assets/homepage/difference-metrics-background.webp';
+import metricsBackground from '../assets/homepage/difference-metrics-background.webp?url';
 
 const metricCards = [
   {

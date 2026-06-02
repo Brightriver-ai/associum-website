@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from './Container';
 import styles from './AboutMetricsSection.module.scss';
-import metricsTexture from '../assets/about/about-metrics-texture.webp';
+import metricsTexture from '../assets/about/about-metrics-texture.webp?url';
 import { motion } from 'framer-motion';
 
 const containerVariants = {

@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Container } from './Container';
 import { ButtonLink } from './ButtonLink';
 import styles from './PricingComparisonTableSection.module.scss';
-import tickIcon from '../assets/pricing/tick.svg';
+import tickIcon from '../assets/pricing/tick.svg?url';
 
 const rowVariants = {
   hidden: { opacity: 0, y: 10 },

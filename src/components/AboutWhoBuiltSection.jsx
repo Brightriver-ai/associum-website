@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container } from './Container';
 import styles from './AboutWhoBuiltSection.module.scss';
-import logoPanelBackground from '../assets/about/about-who-built-panel.webp';
-import associumIcon from '../assets/about/about-associum-icon.webp';
+import logoPanelBackground from '../assets/about/about-who-built-panel.webp?url';
+import associumIcon from '../assets/about/about-associum-icon.webp?url';
 
 import { motion } from 'framer-motion';
 
