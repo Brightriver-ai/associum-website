@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import { NavBar } from '../components/NavBar.jsx';
 import { Footer } from '../components/Footer.jsx';
 import '../styles/global.scss';
@@ -87,10 +86,9 @@ const ogUrl = fullCanonical ?? `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath
     <meta name="twitter:description" content={ogDescription || description} />
     <meta name="twitter:image" content={fullOgImage} />
 
-    <ClientRouter />
   </head>
   <body>
-    <NavBar client:load pathname={cleanPath} transition:persist />
+    <NavBar client:load pathname={cleanPath} />
     <slot />
     <Footer />
   </body>

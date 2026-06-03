@@ -1,5 +1,12 @@
 @use './variables' as *;
 
+// Native cross-document View Transitions for plain MPA navigation. Browsers that
+// support it (Chrome/Edge) get a smooth cross-fade between pages with zero JS;
+// everywhere else navigation is instant (no transition). No client-side router.
+@view-transition {
+  navigation: auto;
+}
+
 *,
 *::before,
 *::after {
