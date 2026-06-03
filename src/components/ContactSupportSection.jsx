@@ -2,10 +2,10 @@ import React from 'react';
 import { Container } from './Container';
 import styles from './ContactSupportSection.module.scss';
 
-import chevronDown from '../assets/contact/contact-chevron-down.svg';
-import salesIcon from '../assets/contact/contact-sales-icon.svg';
-import linkedinIcon from '../assets/contact/contact-linkedin-icon.svg';
-import xIcon from '../assets/contact/contact-x-icon.svg';
+import chevronDown from '../assets/contact/contact-chevron-down.svg?url';
+import salesIcon from '../assets/contact/contact-sales-icon.svg?url';
+import linkedinIcon from '../assets/contact/contact-linkedin-icon.svg?url';
+import xIcon from '../assets/contact/contact-x-icon.svg?url';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const containerVariants = {
@@ -179,6 +179,10 @@ export function ContactSupportSection() {
     setIsSubmitting(true);
 
     try {
+      // TODO(contact-backend): The site is deployed as a static bundle (S3 + CloudFront),
+      // so there is no `/api/contact` endpoint in production yet. Point this at the future
+      // contact backend (e.g. an AWS Lambda Function URL or a Strapi endpoint) once it exists.
+      // See DEPLOYMENT.md → "Contact form". The original Attio handler is preserved in /api/contact.js.
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -192,7 +196,7 @@ export function ContactSupportSection() {
       if (contentType && contentType.includes('application/json')) {
         data = await response.json();
       } else {
-        throw new Error('Server returned a non-JSON response. If you are developing locally, please use the Vercel CLI ("vercel dev") to run both the Vite frontend and Serverless API functions simultaneously.');
+        throw new Error('The contact form is not connected yet. Please email us directly in the meantime.');
       }
 
       if (!response.ok) {

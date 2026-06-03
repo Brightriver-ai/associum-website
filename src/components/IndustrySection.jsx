@@ -4,8 +4,8 @@ import { Container } from './Container';
 import styles from './IndustrySection.module.scss';
 
 import industryVideo from '../assets/homepage/industry-preview.webm';
-import industrySampleForeground from '../assets/homepage/industry-sample-foreground.webp';
-import buttonIcon from '../assets/homepage/industry-button-icon.webp';
+import industrySampleForeground from '../assets/homepage/industry-sample-foreground.webp?url';
+import buttonIcon from '../assets/homepage/industry-button-icon.webp?url';
 
 const containerVariants = {
   hidden: { opacity: 0 },

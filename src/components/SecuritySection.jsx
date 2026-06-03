@@ -2,12 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Container } from './Container';
 import styles from './SecuritySection.module.scss';
-import noTrainingIcon from '../assets/homepage/security-no-model-training.svg';
-import encryptedIcon from '../assets/homepage/security-encrypted.svg';
-import zeroRetentionIcon from '../assets/homepage/security-zero-retention.svg';
-import accessControlIcon from '../assets/homepage/security-access-control.svg';
-import isoLogo from '../assets/homepage/iso.webp';
-import socLogo from '../assets/homepage/soc.webp';
+import noTrainingIcon from '../assets/homepage/security-no-model-training.svg?url';
+import encryptedIcon from '../assets/homepage/security-encrypted.svg?url';
+import zeroRetentionIcon from '../assets/homepage/security-zero-retention.svg?url';
+import accessControlIcon from '../assets/homepage/security-access-control.svg?url';
+import isoLogo from '../assets/homepage/iso.webp?url';
+import socLogo from '../assets/homepage/soc.webp?url';
 
 const securityCards = [
   {

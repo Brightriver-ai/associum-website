@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ContactPage } from '../components/pages/ContactPage.jsx';
+---
+<Layout
+  title="Contact Us — Associum"
+  description="Get in touch with the Associum team for enterprise plans, partnerships, support, or security documentation."
+  ogTitle="Contact Us — Associum"
+  ogDescription="Get in touch with the Associum team for enterprise plans, partnerships, support, or security documentation."
+  canonical="/contact"
+>
+  <ContactPage client:load />
+</Layout>

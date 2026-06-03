@@ -1,14 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Container } from './Container';
 import styles from './Footer.module.scss';
 
-import logoIcon from '../assets/footer/footer-logo.webp';
-import isoBadge from '../assets/footer/footer-iso-badge.svg';
-import aicpaLogo from '../assets/footer/aicpa.webp';
-import linkedinIcon from '../assets/footer/footer-linkedin.svg';
-import xIcon from '../assets/footer/footer-x.svg';
-import watermarkIcon from '../assets/footer/footer-watermark.svg';
+import logoIcon from '../assets/footer/footer-logo.webp?url';
+import isoBadge from '../assets/footer/footer-iso-badge.svg?url';
+import aicpaLogo from '../assets/footer/aicpa.webp?url';
+import linkedinIcon from '../assets/footer/footer-linkedin.svg?url';
+import xIcon from '../assets/footer/footer-x.svg?url';
+import watermarkIcon from '../assets/footer/footer-watermark.svg?url';
 
 const footerColumns = [
   {
@@ -41,10 +40,10 @@ export function Footer() {
         <div className={styles.inner}>
           <div className={styles.top}>
             <div className={styles.brandBlock}>
-              <Link to="/" className={styles.brand}>
+              <a href="/" className={styles.brand}>
                 <img src={logoIcon} alt="" aria-hidden="true" className={styles.brandIcon} />
                 <span>Associum</span>
-              </Link>
+              </a>
 
               <p className={styles.brandCopy}>
                 The AI Associate for Professionals. Built by former investors, consultants, and
@@ -70,7 +69,7 @@ export function Footer() {
                   <ul>
                     {column.links.map((link) => (
                       <li key={link.label}>
-                        <Link to={link.href.startsWith('#') ? `/${link.href}` : link.href}>{link.label}</Link>
+                        <a href={link.href.startsWith('#') ? `/${link.href}` : link.href}>{link.label}</a>
                       </li>
                     ))}
                   </ul>
@@ -97,9 +96,9 @@ export function Footer() {
             </div>
             <div className={styles.legalLinks}>
               {legalLinks.map((link) => (
-                <Link key={link.label} to={link.href}>
+                <a key={link.label} href={link.href}>
                   {link.label}
-                </Link>
+                </a>
               ))}
             </div>
           </div>

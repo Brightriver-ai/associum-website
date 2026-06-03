@@ -4,12 +4,12 @@ import styles from './IntegrationsSection.module.scss';
 import { motion } from 'framer-motion';
 
 // Icon imports (User will upload these)
-import googleIcon from '../assets/integrations/google.svg';
-import gmailIcon from '../assets/integrations/gmail.svg';
-import calendarIcon from '../assets/integrations/calendar.svg';
-import slackIcon from '../assets/integrations/slack.svg';
-import notionIcon from '../assets/integrations/notion.svg';
-import linearIcon from '../assets/integrations/linear.svg';
+import googleIcon from '../assets/integrations/google.svg?url';
+import gmailIcon from '../assets/integrations/gmail.svg?url';
+import calendarIcon from '../assets/integrations/calendar.svg?url';
+import slackIcon from '../assets/integrations/slack.svg?url';
+import notionIcon from '../assets/integrations/notion.svg?url';
+import linearIcon from '../assets/integrations/linear.svg?url';
 
 const containerVariants = {
   hidden: { opacity: 0 },

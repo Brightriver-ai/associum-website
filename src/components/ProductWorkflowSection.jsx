@@ -4,10 +4,10 @@ import { Container } from './Container';
 import styles from './ProductWorkflowSection.module.scss';
 
 // Workflow Stage PNGs
-import workflowIntelligence from '../assets/product/workflow-intelligence.webp';
-import workflowExecution from '../assets/product/workflow-execution.webp';
-import workflowGeneration from '../assets/product/workflow-generation.webp';
-import workflowCollaboration from '../assets/product/workflow-collaboration.webp';
+import workflowIntelligence from '../assets/product/workflow-intelligence.webp?url';
+import workflowExecution from '../assets/product/workflow-execution.webp?url';
+import workflowGeneration from '../assets/product/workflow-generation.webp?url';
+import workflowCollaboration from '../assets/product/workflow-collaboration.webp?url';
 
 const workflowStages = [
   {

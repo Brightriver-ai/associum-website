@@ -3,10 +3,10 @@ import { Container } from './Container';
 import styles from './WhatAssociumDoesSection.module.scss';
 import { motion } from 'framer-motion';
 
-import reportAutomationImage from '../assets/homepage/what-associum-does-report-automation.webp';
-import quantitativeAnalysisImage from '../assets/homepage/what-associum-does-quantitative-analysis.webp';
-import deepResearchImage from '../assets/homepage/what-associum-does-deep-research.webp';
-import knowledgeBaseImage from '../assets/homepage/what-associum-does-knowledge-base.webp';
+import reportAutomationImage from '../assets/homepage/what-associum-does-report-automation.webp?url';
+import quantitativeAnalysisImage from '../assets/homepage/what-associum-does-quantitative-analysis.webp?url';
+import deepResearchImage from '../assets/homepage/what-associum-does-deep-research.webp?url';
+import knowledgeBaseImage from '../assets/homepage/what-associum-does-knowledge-base.webp?url';
 
 const containerVariants = {
   hidden: { opacity: 0 },

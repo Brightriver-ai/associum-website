@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container } from './Container';
 import styles from './AboutTeamSection.module.scss';
-import linkedinIcon from '../assets/about/about-linkedin.webp';
-import wesImage from '../assets/about/Wes.webp';
-import visImage from '../assets/about/Vis.webp';
+import linkedinIcon from '../assets/about/about-linkedin.webp?url';
+import wesImage from '../assets/about/Wes.webp?url';
+import visImage from '../assets/about/Vis.webp?url';
 import { motion } from 'framer-motion';
 
 const containerVariants = {

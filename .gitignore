@@ -6,3 +6,6 @@ build
 .next
 .gemini
 *.log
+
+# Astro
+.astro/
