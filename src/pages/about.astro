@@ -9,5 +9,7 @@ import { AboutPage } from '../components/pages/AboutPage.jsx';
   ogDescription="Meet the team behind Associum. We build tools to remove the production bottleneck for finance, consulting, accounting, and legal professionals."
   canonical="/about"
 >
-  <AboutPage client:load />
+  {/* No client:* directive -> rendered to static HTML, ships zero component JS.
+      Scroll-reveal is handled by the shared observer in Layout.astro. */}
+  <AboutPage />
 </Layout>

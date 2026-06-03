@@ -1,30 +1,6 @@
 import React from 'react';
 import { Container } from './Container';
 import styles from './AboutPrinciplesSection.module.scss';
-import { motion } from 'framer-motion';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 const principleCards = [
   {
@@ -52,38 +28,31 @@ export function AboutPrinciplesSection() {
     <section className={styles.section} aria-labelledby="about-principles-title">
       <Container>
         <div className={styles.inner}>
-          <motion.div
-            className={styles.header}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            variants={containerVariants}
-          >
-            <motion.span className={styles.eyebrow} variants={itemVariants}>
+          <div className={styles.header}>
+            <span className={styles.eyebrow} data-reveal style={{ '--reveal-delay': '0.1s' }}>
               Our Principles
-            </motion.span>
-            <motion.h2 id="about-principles-title" variants={itemVariants}>
+            </span>
+            <h2 id="about-principles-title" data-reveal style={{ '--reveal-delay': '0.2s' }}>
               How We Think About AI for Professionals
-            </motion.h2>
-            <motion.p variants={itemVariants}>
+            </h2>
+            <p data-reveal style={{ '--reveal-delay': '0.3s' }}>
               We believe the best analytical work shouldn't be gated by time, team size, or tools.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
-          <motion.div
-            className={styles.grid}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            variants={containerVariants}
-          >
-            {principleCards.map((card) => (
-              <motion.article key={card.title} className={styles.card} variants={itemVariants}>
+          <div className={styles.grid}>
+            {principleCards.map((card, i) => (
+              <article
+                key={card.title}
+                className={styles.card}
+                data-reveal
+                style={{ '--reveal-delay': `${0.1 + i * 0.1}s` }}
+              >
                 <h3>{card.title}</h3>
                 <p>{card.description}</p>
-              </motion.article>
+              </article>
             ))}
-          </motion.div>
+          </div>
         </div>
       </Container>
     </section>

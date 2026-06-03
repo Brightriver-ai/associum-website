@@ -2,30 +2,6 @@ import React from 'react';
 import { Container } from './Container';
 import styles from './AboutMetricsSection.module.scss';
 import metricsTexture from '../assets/about/about-metrics-texture.webp?url';
-import { motion } from 'framer-motion';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 const metrics = [
   {
@@ -53,20 +29,19 @@ export function AboutMetricsSection() {
       </div>
 
       <Container>
-        <motion.div
-          className={styles.tiles}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          {metrics.map((metric) => (
-            <motion.article key={metric.title} className={styles.tile} variants={itemVariants}>
+        <div className={styles.tiles}>
+          {metrics.map((metric, i) => (
+            <article
+              key={metric.title}
+              className={styles.tile}
+              data-reveal
+              style={{ '--reveal-delay': `${0.2 + i * 0.15}s` }}
+            >
               <h2>{metric.title}</h2>
               <p>{metric.description}</p>
-            </motion.article>
+            </article>
           ))}
-        </motion.div>
+        </div>
       </Container>
     </section>
   );
