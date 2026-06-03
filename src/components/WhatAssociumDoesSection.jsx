@@ -1,35 +1,11 @@
 import React from 'react';
 import { Container } from './Container';
 import styles from './WhatAssociumDoesSection.module.scss';
-import { motion } from 'framer-motion';
 
 import reportAutomationImage from '../assets/homepage/what-associum-does-report-automation.webp?url';
 import quantitativeAnalysisImage from '../assets/homepage/what-associum-does-quantitative-analysis.webp?url';
 import deepResearchImage from '../assets/homepage/what-associum-does-deep-research.webp?url';
 import knowledgeBaseImage from '../assets/homepage/what-associum-does-knowledge-base.webp?url';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 const cards = [
   {
@@ -85,37 +61,25 @@ export function WhatAssociumDoesSection() {
   return (
     <section className={styles.section} aria-labelledby="what-associum-does-title">
       <Container>
-        <motion.div
-          className={styles.header}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          <motion.div className={styles.eyebrowRow} variants={itemVariants}>
+        <div className={styles.header}>
+          <div className={styles.eyebrowRow} data-reveal style={{ '--reveal-delay': '0.1s' }}>
             <p className={styles.eyebrow}>What Associum Does BETTER</p>
-          </motion.div>
-          <motion.div className={styles.titleBlock} variants={itemVariants}>
+          </div>
+          <div className={styles.titleBlock} data-reveal style={{ '--reveal-delay': '0.2s' }}>
             <h2 id="what-associum-does-title">The Quality Your Clients Expect. In Minutes, Not Hours.</h2>
-          </motion.div>
-          <motion.p className={styles.description} variants={itemVariants}>
+          </div>
+          <p className={styles.description} data-reveal style={{ '--reveal-delay': '0.3s' }}>
             From data to finished document - sourced, structured, and accurate. Delivered for your final review by Associum.
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
-        <motion.div
-          className={styles.grid}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          {cards.map((card) => (
-            <motion.div key={card.title} variants={itemVariants}>
+        <div className={styles.grid}>
+          {cards.map((card, i) => (
+            <div key={card.title} data-reveal style={{ '--reveal-delay': `${0.1 + i * 0.1}s` }}>
               <Card {...card} />
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </Container>
     </section>
   );

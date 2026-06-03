@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Container } from './Container';
 import styles from './DifferenceSection.module.scss';
 import metricsBackground from '../assets/homepage/difference-metrics-background.webp?url';
@@ -27,29 +26,6 @@ const metricCards = [
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
 export function DifferenceSection() {
   return (
     <section className={styles.section} aria-labelledby="difference-title">
@@ -59,34 +35,29 @@ export function DifferenceSection() {
       </div>
 
       <Container>
-        <motion.div 
-          className={styles.content}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={containerVariants}
-        >
-          <motion.div className={styles.header} variants={itemVariants}>
+        <div className={styles.content}>
+          <div className={styles.header} data-reveal>
             <p className={styles.eyebrow}>The Associum Difference</p>
             <h2 id="difference-title">
               <span>Associate creates the deliverable.</span>
               <span>You make it your own.</span>
             </h2>
-          </motion.div>
+          </div>
 
           <div className={styles.metricsGrid}>
-            {metricCards.map((card) => (
-              <motion.article 
-                key={card.id} 
+            {metricCards.map((card, i) => (
+              <article
+                key={card.id}
                 className={styles.metricCard}
-                variants={itemVariants}
+                data-reveal
+                style={{ '--reveal-delay': `${0.1 + i * 0.1}s` }}
               >
                 <h3>{card.title}</h3>
                 <p>{card.description}</p>
-              </motion.article>
+              </article>
             ))}
           </div>
-        </motion.div>
+        </div>
       </Container>
     </section>
   );

@@ -92,35 +92,6 @@ const ogUrl = fullCanonical ?? `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath
   <body>
     <NavBar client:load pathname={cleanPath} transition:persist />
     <slot />
-
-    <script>
-      // One shared scroll-reveal observer for the whole site (replaces
-      // per-component framer-motion). Re-runs after every View Transition
-      // navigation via `astro:page-load`.
-      function setupReveal() {
-        const els = document.querySelectorAll('[data-reveal]:not(.is-visible)');
-        if (!els.length) return;
-        if (!('IntersectionObserver' in window)) {
-          els.forEach((el) => el.classList.add('is-visible'));
-          return;
-        }
-        const io = new IntersectionObserver(
-          (entries, obs) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                obs.unobserve(entry.target);
-              }
-            });
-          },
-          { rootMargin: '0px 0px -8% 0px' }
-        );
-        els.forEach((el) => io.observe(el));
-      }
-      // Run now for the initial load, and again after each View Transition nav.
-      setupReveal();
-      document.addEventListener('astro:page-load', setupReveal);
-    </script>
     <Footer />
   </body>
 </html>
