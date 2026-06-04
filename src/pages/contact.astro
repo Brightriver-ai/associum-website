@@ -5,6 +5,17 @@ import { ContactSupportSection } from '../components/ContactSupportSection.jsx';
 import { ContactFaqSection } from '../components/ContactFaqSection.jsx';
 import { CtaBanner } from '../components/CtaBanner.jsx';
 import contactStyles from '../components/pages/ContactPage.module.scss';
+import { contactFaqItems } from '../data/contactFaq.js';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: contactFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
 ---
 <Layout
   title="Contact Us — Associum"
@@ -12,6 +23,7 @@ import contactStyles from '../components/pages/ContactPage.module.scss';
   ogTitle="Contact Us — Associum"
   ogDescription="Get in touch with the Associum team for enterprise plans, partnerships, support, or security documentation."
   canonical="/contact"
+  structuredData={[faqSchema]}
 >
   <main>
     <ContactPage />
