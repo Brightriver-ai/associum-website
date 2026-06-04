@@ -12,6 +12,30 @@ const SITE_URL = (Astro.site?.href ?? 'https://www.associum.ai/').replace(/\/$/,
 // site-wide noindex so they never compete with prod in search results.
 const isProduction = (process.env.DEPLOY_ENV ?? 'production') === 'production';
 
+// Google Tag Manager — production ONLY. Unlike `isProduction` above (which
+// defaults unset → production for indexability), analytics must NOT fire on
+// staging or during local dev/build, so we require an explicit
+// DEPLOY_ENV=production (set by the prod deploy workflow). GTM is the single
+// container that loads GA4, Google Ads conversion tracking, and any future
+// tags — managed in the GTM web UI, so this snippet never needs to change.
+const GTM_ID = 'GTM-KFKV462S';
+const gtmEnabled = process.env.DEPLOY_ENV === 'production';
+
+// Injected verbatim via set:html so Astro does not bundle/hoist the snippet
+// (it must run inline, as high in the <head> as possible).
+const gtmHead = `<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');</script>
+<!-- End Google Tag Manager -->`;
+
+const gtmBody = `<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->`;
+
 const {
   title,
   description,
@@ -44,6 +68,8 @@ const ogUrl = fullCanonical ?? `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {gtmEnabled && <Fragment set:html={gtmHead} />}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -92,6 +118,7 @@ const ogUrl = fullCanonical ?? `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath
     <ClientRouter />
   </head>
   <body>
+    {gtmEnabled && <Fragment set:html={gtmBody} />}
     <NavBar client:load pathname={cleanPath} transition:persist />
     <slot />
     <Footer />
