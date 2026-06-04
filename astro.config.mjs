@@ -13,12 +13,12 @@ export default defineConfig({
   // staging vs production; falls back to the production domain for local builds.
   site: process.env.SITE_URL || 'https://www.associum.ai',
   output: 'static',
-  // Prefetch linked pages so navigation starts instantly instead of waiting on a
-  // cold fetch. `hover` fetches on hover/touchstart (just before the click), and
-  // every page opts in via prefetchAll. Works together with the ClientRouter.
+  // Prefetch linked pages so navigation is instant. `viewport` prefetches links
+  // as soon as they're visible (so the nav bar's links are ready before the user
+  // even hovers), and ClientRouter then swaps them in with no browser loader.
   prefetch: {
     prefetchAll: true,
-    defaultStrategy: 'hover',
+    defaultStrategy: 'viewport',
   },
   // Directory-style output (/product/index.html) to match the IaC website
   // module's `directory-index` CloudFront Function (associo-iac). The 404 page
