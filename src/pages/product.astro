@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import { ProductPage } from '../components/pages/ProductPage.jsx';
 import { ProductWorkflowSection } from '../components/ProductWorkflowSection.jsx';
 import { ProductComparisonSection } from '../components/ProductComparisonSection.jsx';
-import { ProductBeforeAfterSection } from '../components/ProductBeforeAfterSection.jsx';
 import { ProductCtaSection } from '../components/ProductCtaSection.jsx';
 ---
 <Layout
@@ -19,7 +18,6 @@ import { ProductCtaSection } from '../components/ProductCtaSection.jsx';
     <ProductPage />
     <ProductWorkflowSection client:visible />
     <ProductComparisonSection />
-    <ProductBeforeAfterSection />
     <ProductCtaSection />
   </main>
 </Layout>
