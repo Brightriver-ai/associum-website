@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container } from './Container';
-import { ScrollReveal } from './ScrollReveal';
 import styles from './ProductComparisonSection.module.scss';
 import associumIcon from '../assets/product/comparison-associum-logo.webp?url';
 import negativeIcon from '../assets/product/cross.svg?url';
@@ -36,14 +35,12 @@ export function ProductComparisonSection() {
     <section className={styles.section} aria-labelledby="comparison-title">
       <Container>
         <div className={styles.inner}>
-          <ScrollReveal>
-            <div className={styles.header}>
-              <h2 id="comparison-title">Built Different. On Purpose.</h2>
-              <p>Most AI gives you more work to do. Associum gives you work that&apos;s done.</p>
-            </div>
-          </ScrollReveal>
+          <div className={styles.header} data-reveal style={{ '--reveal-delay': '0.1s' }}>
+            <h2 id="comparison-title">Built Different. On Purpose.</h2>
+            <p>Most AI gives you more work to do. Associum gives you work that&apos;s done.</p>
+          </div>
 
-          <ScrollReveal>
+          <div data-reveal style={{ '--reveal-delay': '0.15s' }}>
             <div className={`${styles.comparison} ${styles.desktopComparison}`} aria-label="Product comparison">
               <div className={`${styles.cardHeader} ${styles.associumHeader}`}>
                 <div className={styles.associumBrand}>
@@ -155,7 +152,7 @@ export function ProductComparisonSection() {
                 </div>
               </article>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
       </Container>
     </section>
