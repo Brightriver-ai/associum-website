@@ -87,6 +87,15 @@ export const handler = async (event) => {
     'Content-Type': 'application/json',
   };
 
+  // One shared Lambda serves both environments. Each CloudFront distribution
+  // stamps an `X-Associum-Env` header, so non-production submissions are labeled
+  // (e.g. "Website Contact Form (staging)") to keep test leads identifiable.
+  const envName = (event?.headers?.['x-associum-env'] || '').toLowerCase();
+  const leadSource =
+    envName && envName !== 'production'
+      ? `Website Contact Form (${envName})`
+      : 'Website Contact Form';
+
   try {
     // 1. Assert Person (create or update, matched on email).
     // https://developers.attio.com/reference/assert-record
@@ -103,7 +112,7 @@ export const handler = async (event) => {
               phone_numbers: sanitizedPhone
                 ? [{ original_phone_number: sanitizedPhone, country_code: null }]
                 : [],
-              lead_source: 'Website Contact Form',
+              lead_source: leadSource,
             },
           },
         }),
