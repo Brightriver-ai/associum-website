@@ -75,13 +75,26 @@ The S3 sync sets long-lived immutable caching on fingerprinted assets (`_astro/*
 `no-cache` on HTML/XML/TXT, then a `/*` CloudFront invalidation makes each deploy go live
 immediately.
 
-## Contact form (not wired yet)
+## Contact form → Attio (via Lambda)
 
-The contact form (`src/components/ContactSupportSection.jsx`) POSTs to `/api/contact`. That
-endpoint does **not** exist on static hosting. The original Vercel serverless handler that
-upserts to Attio is preserved at [api/contact.js](api/contact.js) for reference. To re-enable,
-stand up a backend that keeps the `ATTIO_API_KEY` server-side (e.g. an AWS Lambda Function URL
-or a Strapi endpoint) and update the fetch target in `ContactSupportSection.jsx`.
+The contact form (`src/components/ContactSupportSection.jsx`) POSTs to an **AWS Lambda Function
+URL** that calls Attio server-side. The Attio key must stay server-side — it's a full-workspace
+token, so it can **never** ship in the browser (and Attio doesn't allow browser CORS anyway).
+A CloudFront Function can't do this either (no outbound network).
+
+**Lambda:** source at [lambda/contact/index.mjs](lambda/contact/index.mjs) (Node 20, no deps —
+uses global `fetch`). Deploy as a function with a **Function URL** (Auth type `NONE`):
+- Env: `ATTIO_API_KEY` (required; from Lambda env or Secrets Manager), `ALLOWED_ORIGINS`
+  (comma-separated, e.g. `https://www.associum.ai,https://staging.associum.ai`).
+- Recommended: a WAF rate-limit rule in front of the Function URL to deter spam.
+
+**Frontend wiring:** the form's endpoint is injected at build time via the `PUBLIC_CONTACT_ENDPOINT`
+variable (Astro exposes `PUBLIC_*` to client code). Add it as a **GitHub environment variable** per
+environment (staging Lambda URL / production Lambda URL). If unset, the form shows a "not connected"
+message instead of erroring.
+
+The original Vercel handler is preserved at [api/contact.js](api/contact.js) for reference (the
+Lambda is a faithful port of it).
 
 ## Local development
 

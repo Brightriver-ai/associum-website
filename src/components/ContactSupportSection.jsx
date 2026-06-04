@@ -179,11 +179,16 @@ export function ContactSupportSection() {
     setIsSubmitting(true);
 
     try {
-      // TODO(contact-backend): The site is deployed as a static bundle (S3 + CloudFront),
-      // so there is no `/api/contact` endpoint in production yet. Point this at the future
-      // contact backend (e.g. an AWS Lambda Function URL or a Strapi endpoint) once it exists.
-      // See DEPLOYMENT.md → "Contact form". The original Attio handler is preserved in /api/contact.js.
-      const response = await fetch('/api/contact', {
+      // The contact backend is an AWS Lambda Function URL that calls Attio
+      // server-side (the API key must never reach the browser). Its URL is
+      // injected at build time per environment via PUBLIC_CONTACT_ENDPOINT.
+      // Source: lambda/contact/index.mjs. See DEPLOYMENT.md → "Contact form".
+      const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT;
+      if (!endpoint) {
+        throw new Error('The contact form is not connected yet. Please email us directly in the meantime.');
+      }
+
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
