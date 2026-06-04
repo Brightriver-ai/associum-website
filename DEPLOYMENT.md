@@ -75,26 +75,25 @@ The S3 sync sets long-lived immutable caching on fingerprinted assets (`_astro/*
 `no-cache` on HTML/XML/TXT, then a `/*` CloudFront invalidation makes each deploy go live
 immediately.
 
-## Contact form → Attio (via Lambda)
+## Contact form → Attio (same-origin via CloudFront → Lambda)
 
-The contact form (`src/components/ContactSupportSection.jsx`) POSTs to an **AWS Lambda Function
-URL** that calls Attio server-side. The Attio key must stay server-side — it's a full-workspace
-token, so it can **never** ship in the browser (and Attio doesn't allow browser CORS anyway).
-A CloudFront Function can't do this either (no outbound network).
+The form (`src/components/ContactSupportSection.jsx`) POSTs to **`/api/contact`** on the site's own
+origin. **CloudFront routes that path to a regional Lambda** (Function URL origin) that calls Attio
+server-side. Because it's same-origin, there's **no CORS** and the Attio key never reaches the
+browser. (The Attio key is a full-workspace token; it can't ship client-side. A CloudFront *Function*
+can't call Attio either — no outbound network.)
 
-**Lambda:** source at [lambda/contact/index.mjs](lambda/contact/index.mjs) (Node 20, no deps —
-uses global `fetch`). Deploy as a function with a **Function URL** (Auth type `NONE`):
-- Env: `ATTIO_API_KEY` (required; from Lambda env or Secrets Manager), `ALLOWED_ORIGINS`
-  (comma-separated, e.g. `https://www.associum.ai,https://staging.associum.ai`).
-- Recommended: a WAF rate-limit rule in front of the Function URL to deter spam.
+**Lambda** (created manually; not in this repo's deploy): Node 20, no deps — source preserved at
+[lambda/contact/index.mjs](lambda/contact/index.mjs). Function URL, Auth `NONE`. Env: `ATTIO_API_KEY`
+(required). `ALLOWED_ORIGINS` is unnecessary for the same-origin path but harmless to set.
 
-**Frontend wiring:** the form's endpoint is injected at build time via the `PUBLIC_CONTACT_ENDPOINT`
-variable (Astro exposes `PUBLIC_*` to client code). Add it as a **GitHub environment variable** per
-environment (staging Lambda URL / production Lambda URL). If unset, the form shows a "not connected"
-message instead of erroring.
+**CloudFront routing** lives in IaC (`associo-iac` → `modules/website`): a second origin = the Lambda
+Function URL, and an `/api/contact` cache behavior (caching disabled, `POST`/`OPTIONS` allowed,
+`AllViewerExceptHostHeader` origin-request policy so the Function URL gets its own Host). The Lambda
+URL is passed to the module via the `contact_lambda_url` variable. **Do not** edit the distribution in
+the console — it's Terraform-managed and would be reverted on the next apply.
 
-The original Vercel handler is preserved at [api/contact.js](api/contact.js) for reference (the
-Lambda is a faithful port of it).
+The original Vercel handler is preserved at [api/contact.js](api/contact.js) for reference.
 
 ## Local development
 
