@@ -50,8 +50,6 @@ jobs:
         env:
           SITE_URL: ${{ vars.SITE_URL }}
           DEPLOY_ENV: staging
-          # Lambda Function URL for the contact form (Attio). Per-environment.
-          PUBLIC_CONTACT_ENDPOINT: ${{ vars.PUBLIC_CONTACT_ENDPOINT }}
         run: pnpm build
 
       - name: Configure AWS

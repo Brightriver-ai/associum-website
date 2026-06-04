@@ -179,16 +179,11 @@ export function ContactSupportSection() {
     setIsSubmitting(true);
 
     try {
-      // The contact backend is an AWS Lambda Function URL that calls Attio
-      // server-side (the API key must never reach the browser). Its URL is
-      // injected at build time per environment via PUBLIC_CONTACT_ENDPOINT.
-      // Source: lambda/contact/index.mjs. See DEPLOYMENT.md → "Contact form".
-      const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT;
-      if (!endpoint) {
-        throw new Error('The contact form is not connected yet. Please email us directly in the meantime.');
-      }
-
-      const response = await fetch(endpoint, {
+      // Same-origin endpoint: CloudFront routes /api/contact to the contact
+      // Lambda (Function URL origin) that calls Attio server-side, so the API key
+      // never reaches the browser and there's no CORS. Lambda source:
+      // lambda/contact/index.mjs. See DEPLOYMENT.md → "Contact form".
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
