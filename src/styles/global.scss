@@ -1,5 +1,12 @@
 @use './variables' as *;
 
+// Native cross-document View Transitions for plain MPA navigation. Browsers that
+// support it (Chrome/Edge) get a smooth cross-fade between pages with zero JS;
+// everywhere else navigation is instant (no transition). No client-side router.
+@view-transition {
+  navigation: auto;
+}
+
 *,
 *::before,
 *::after {
@@ -37,4 +44,44 @@ select {
 img {
   max-width: 100%;
   display: block;
+}
+
+// Entrance animation — replaces per-component framer-motion. Pure CSS: a
+// load-in animation whose `both` fill-mode ends at the visible state, so content
+// can never be stuck hidden and there is no JS dependency. Optional per-element
+// stagger via the `--reveal-delay` custom property; `data-reveal="zoom"` scales in.
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+[data-reveal] {
+  animation: reveal-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s) both;
+}
+
+[data-reveal='zoom'] {
+  animation-name: reveal-zoom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    animation: none;
+  }
 }

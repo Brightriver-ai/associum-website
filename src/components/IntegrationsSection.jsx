@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container } from './Container';
 import styles from './IntegrationsSection.module.scss';
-import { motion } from 'framer-motion';
 
 // Icon imports (User will upload these)
 import googleIcon from '../assets/integrations/google.svg?url';
@@ -10,29 +9,6 @@ import calendarIcon from '../assets/integrations/calendar.svg?url';
 import slackIcon from '../assets/integrations/slack.svg?url';
 import notionIcon from '../assets/integrations/notion.svg?url';
 import linearIcon from '../assets/integrations/linear.svg?url';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 const integrationIcons = [
   { src: googleIcon, alt: 'Google' },
@@ -47,35 +23,34 @@ export function IntegrationsSection() {
   return (
     <section className={styles.section}>
       <Container>
-        <motion.div 
-          className={styles.content}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={containerVariants}
-        >
+        <div className={styles.content}>
           <div className={styles.textSide}>
-            <motion.h2 className={styles.title} variants={itemVariants}>
+            <h2 className={styles.title} data-reveal>
               Integrations
-            </motion.h2>
-            <motion.p className={styles.subheading} variants={itemVariants}>
+            </h2>
+            <p className={styles.subheading} data-reveal style={{ '--reveal-delay': '0.1s' }}>
               Associum integrates with your preferred data sources and applications via their Model Context Protocol ("MCP") servers. Choose from our existing integrations or easily add your own.
-            </motion.p>
+            </p>
           </div>
 
           <div className={styles.iconSide}>
-            <motion.div className={styles.iconGrid} variants={itemVariants}>
+            <div className={styles.iconGrid}>
               {integrationIcons.map((icon, index) => (
-                <div key={index} className={styles.iconWrapper}>
+                <div
+                  key={index}
+                  className={styles.iconWrapper}
+                  data-reveal
+                  style={{ '--reveal-delay': `${0.1 + index * 0.06}s` }}
+                >
                   <img src={icon.src} alt={icon.alt} />
                 </div>
               ))}
-            </motion.div>
-            <motion.p className={styles.andMore} variants={itemVariants}>
+            </div>
+            <p className={styles.andMore} data-reveal style={{ '--reveal-delay': '0.5s' }}>
               and more
-            </motion.p>
+            </p>
           </div>
-        </motion.div>
+        </div>
       </Container>
     </section>
   );

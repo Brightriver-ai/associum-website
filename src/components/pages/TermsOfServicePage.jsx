@@ -1,32 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Container } from '../Container';
 import styles from './TermsOfServicePage.module.scss';
 import heroTexture from '../../assets/about/about-hero-texture.webp?url';
 import heroGlow from '../../assets/about/about-hero-glow.webp?url';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 1,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 const tableOfContents = [
   { id: '1-acceptance-of-terms', label: '1. Acceptance of Terms' },
@@ -94,47 +70,36 @@ export function TermsOfServicePage() {
           </div>
 
           <Container>
-            <motion.div
-              className={styles.heroInner}
-              initial="visible"
-              animate="visible"
-              variants={containerVariants}
-            >
-              <motion.h1 id="terms-title" variants={itemVariants}>
+            <div className={styles.heroInner}>
+              <h1 id="terms-title" data-reveal>
                 Terms of Service
-              </motion.h1>
-              <motion.div className={styles.heroDates} variants={itemVariants}>
+              </h1>
+              <div className={styles.heroDates} data-reveal style={{ '--reveal-delay': '0.15s' }}>
                 <p>Effective Date: May 11, 2026</p>
                 <p>Last Updated: May 11, 2026</p>
-              </motion.div>
-              <motion.p className={styles.heroSummary} variants={itemVariants}>
+              </div>
+              <p className={styles.heroSummary} data-reveal style={{ '--reveal-delay': '0.3s' }}>
                 Please read these Terms of Service ("Terms") carefully before using the Associum
                 application or any related services. By accessing or using Associum, you agree to
                 be bound by these Terms. If you do not agree, do not use Associum.
-              </motion.p>
-            </motion.div>
+              </p>
+            </div>
           </Container>
         </section>
 
         <section className={styles.termsSection} aria-labelledby="terms-document-title">
           <Container>
-            <motion.div
-              className={styles.termsLayout}
-              initial="visible"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.04 }}
-              variants={containerVariants}
-            >
-              <motion.aside className={styles.tocCard} variants={itemVariants}>
+            <div className={styles.termsLayout}>
+              <aside className={styles.tocCard} data-reveal>
                 <h2>Table of Contents</h2>
                 <nav className={styles.tocList} aria-label="Terms of contents">
                   {tableOfContents.map((item) => (
                     <TocLink key={item.id} id={item.id} label={item.label} />
                   ))}
                 </nav>
-              </motion.aside>
+              </aside>
 
-              <motion.article className={styles.termsDocument} variants={itemVariants}>
+              <article className={styles.termsDocument} data-reveal style={{ '--reveal-delay': '0.15s' }}>
                 <h2 id="terms-document-title" className={styles.documentTitle}>
                   Terms of Service
                 </h2>
@@ -1111,8 +1076,8 @@ export function TermsOfServicePage() {
                     <p>These Terms of Service were last updated on May 11, 2026.</p>
                   </div>
                 </section>
-              </motion.article>
-            </motion.div>
+              </article>
+            </div>
           </Container>
         </section>
       </main>

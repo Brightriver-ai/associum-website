@@ -2,30 +2,6 @@ import React from 'react';
 import { Container } from './Container';
 import { ButtonLink } from './ButtonLink';
 import styles from './CtaBanner.module.scss';
-import { motion } from 'framer-motion';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 export function CtaBanner({
   title,
@@ -42,39 +18,33 @@ export function CtaBanner({
   return (
     <section className={`${styles.section} ${className}`.trim()}>
       <Container>
-        <motion.div
-          className={styles.panel}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          <motion.div className={styles.header} variants={itemVariants}>
+        <div className={styles.panel}>
+          <div className={styles.header} data-reveal style={{ '--reveal-delay': '0.2s' }}>
             <h2>{title}</h2>
             <p>{description}</p>
-          </motion.div>
+          </div>
 
-          <motion.div className={styles.actions} variants={itemVariants}>
+          <div className={styles.actions} data-reveal style={{ '--reveal-delay': '0.3s' }}>
             <div className={styles.primaryActionGroup}>
               <ButtonLink href={primaryHref} variant={primaryVariant} size="heroPrimary">
                 {primaryLabel}
               </ButtonLink>
               {footnote ? <span className={styles.footnote}>{footnote}</span> : null}
             </div>
-            
+
             {secondaryLabel ? (
               <ButtonLink href={secondaryHref} variant="outline" size="heroSecondary">
                 {secondaryLabel}
               </ButtonLink>
             ) : null}
-          </motion.div>
+          </div>
 
           {meta ? (
-            <motion.span className={styles.meta} variants={itemVariants}>
+            <span className={styles.meta} data-reveal style={{ '--reveal-delay': '0.4s' }}>
               {meta}
-            </motion.span>
+            </span>
           ) : null}
-        </motion.div>
+        </div>
       </Container>
     </section>
   );

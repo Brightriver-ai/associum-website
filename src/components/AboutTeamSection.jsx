@@ -4,30 +4,6 @@ import styles from './AboutTeamSection.module.scss';
 import linkedinIcon from '../assets/about/about-linkedin.webp?url';
 import wesImage from '../assets/about/Wes.webp?url';
 import visImage from '../assets/about/Vis.webp?url';
-import { motion } from 'framer-motion';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 const teamMembers = [
   {
@@ -61,15 +37,14 @@ export function AboutTeamSection() {
             <h2 id="about-team-title">The Team</h2>
           </div>
 
-          <motion.div
-            className={styles.grid}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            variants={containerVariants}
-          >
-            {teamMembers.map((member) => (
-              <motion.article key={member.name} className={styles.card} variants={itemVariants}>
+          <div className={styles.grid}>
+            {teamMembers.map((member, i) => (
+              <article
+                key={member.name}
+                className={styles.card}
+                data-reveal
+                style={{ '--reveal-delay': `${0.1 + i * 0.2}s` }}
+              >
                 <div className={styles.imageFrame}>
                   <img className={member.imageClassName} src={member.image} alt={member.name} />
                 </div>
@@ -90,9 +65,9 @@ export function AboutTeamSection() {
                     <span>LinkedIn</span>
                   </a>
                 </div>
-              </motion.article>
+              </article>
             ))}
-          </motion.div>
+          </div>
         </div>
       </Container>
     </section>

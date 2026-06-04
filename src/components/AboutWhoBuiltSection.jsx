@@ -4,61 +4,18 @@ import styles from './AboutWhoBuiltSection.module.scss';
 import logoPanelBackground from '../assets/about/about-who-built-panel.webp?url';
 import associumIcon from '../assets/about/about-associum-icon.webp?url';
 
-import { motion } from 'framer-motion';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
-const panelVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 1.2,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
 export function AboutWhoBuiltSection() {
   return (
     <section className={styles.section} aria-labelledby="about-who-built-title">
       <Container>
-        <motion.div
-          className={styles.grid}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
+        <div className={styles.grid}>
           <div className={styles.copy}>
-            <motion.div className={styles.headingGroup} variants={itemVariants}>
+            <div className={styles.headingGroup} data-reveal style={{ '--reveal-delay': '0.2s' }}>
               <p className={styles.eyebrow}>WHO BUILT THIS</p>
               <h2 id="about-who-built-title">Built by Practitioners, Not Observers.</h2>
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.body} variants={itemVariants}>
+            <div className={styles.body} data-reveal style={{ '--reveal-delay': '0.35s' }}>
               <p>
                 We were the associates and consultants. We did all the manual data gathering,
                 analysis, and crafting of final deliverables. The late nights, complicated
@@ -67,17 +24,18 @@ export function AboutWhoBuiltSection() {
                 allowing for our clients' final judgment to be reflected in institutional-quality
                 outputs.
               </p>
-            </motion.div>
+            </div>
 
-            <motion.p className={styles.closing} variants={itemVariants}>
+            <p className={styles.closing} data-reveal style={{ '--reveal-delay': '0.5s' }}>
               Associum is what we wished we'd had.
-            </motion.p>
+            </p>
           </div>
 
-          <motion.div
+          <div
             className={styles.brandPanel}
             aria-hidden="true"
-            variants={panelVariants}
+            data-reveal="zoom"
+            style={{ '--reveal-delay': '0.3s' }}
           >
             <div className={styles.brandPanelBackground}>
               <img src={logoPanelBackground} alt="" />
@@ -88,8 +46,8 @@ export function AboutWhoBuiltSection() {
               <img className={styles.brandIcon} src={associumIcon} alt="" />
               <span>Associum</span>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </Container>
     </section>
   );

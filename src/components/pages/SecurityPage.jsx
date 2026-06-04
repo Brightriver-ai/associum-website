@@ -1,6 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { PageTransition } from '../PageTransition';
 import { Container } from '../Container';
 import styles from './SecurityPage.module.scss';
 import heroBackground from '../../assets/security/security-hero-background.webp?url';
@@ -10,29 +8,6 @@ import socBadge from '../../assets/security/security-soc-badge.webp?url';
 import trustCenterImage from '../../assets/security/security-trust-center.webp?url';
 import metricsBackground from '../../assets/security/security-metrics-background.webp?url';
 import { CtaBanner } from '../CtaBanner';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.14,
-      delayChildren: 0.18,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 import noTrainingIcon from '../../assets/security/icons/security-no-training.svg?url';
 import encryptionIcon from '../../assets/security/icons/security-encryption.svg?url';
@@ -160,7 +135,7 @@ function ShieldIcon() {
 
 export function SecurityPage() {
   return (
-    <PageTransition>
+    <>
       <main>
         <section className={styles.hero} aria-labelledby="security-hero-title">
           <div className={styles.backdrop} aria-hidden="true">
@@ -169,45 +144,34 @@ export function SecurityPage() {
           </div>
 
           <Container>
-            <motion.div
-              className={styles.heroInner}
-              initial="hidden"
-              animate="visible"
-              variants={containerVariants}
-            >
+            <div className={styles.heroInner}>
               <div className={styles.copy}>
-                <motion.h1 id="security-hero-title" variants={itemVariants}>
+                <h1 id="security-hero-title" data-reveal style={{ '--reveal-delay': '0.1s' }}>
                   Your Work Stays Yours. Always
-                </motion.h1>
-                <motion.p className={styles.description} variants={itemVariants}>
+                </h1>
+                <p className={styles.description} data-reveal style={{ '--reveal-delay': '0.2s' }}>
                   Data privacy and security are foundational principles for Associum. Your data is
                   never used to train our models, and our system exceeds global enterprise-grade
                   compliance standards.
-                </motion.p>
-                <motion.p className={styles.meta} variants={itemVariants}>
+                </p>
+                <p className={styles.meta} data-reveal style={{ '--reveal-delay': '0.3s' }}>
                   SOC 2 Compliant <span aria-hidden="true">·</span> ISO 27001{' '}
                   <span aria-hidden="true">·</span> No Model Training
-                </motion.p>
+                </p>
               </div>
 
-              <motion.div className={styles.badgePanel} variants={itemVariants} aria-label="Compliance badges">
+              <div className={styles.badgePanel} data-reveal style={{ '--reveal-delay': '0.4s' }} aria-label="Compliance badges">
                 <img src={isoBadge} alt="ISO 27001 certified" className={styles.isoBadge} />
                 <img src={socBadge} alt="AICPA SOC certified" className={styles.socBadge} />
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </Container>
         </section>
 
         <section className={styles.protection} aria-labelledby="security-compliance-title">
           <Container>
-            <motion.div
-              className={styles.protectionInner}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={containerVariants}
-            >
-              <motion.div className={styles.sectionHeader} variants={itemVariants}>
+            <div className={styles.protectionInner}>
+              <div className={styles.sectionHeader} data-reveal style={{ '--reveal-delay': '0.1s' }}>
                 <p className={styles.sectionEyebrow}>Security &amp; Compliance</p>
                 <h2 id="security-compliance-title">
                   Enterprise-grade protection for your most sensitive work
@@ -216,9 +180,9 @@ export function SecurityPage() {
                   Your data is never used to train our models. Everything is encrypted,
                   permissioned, and monitored — on every plan, from day one.
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div className={styles.highlightGrid} variants={itemVariants}>
+              <div className={styles.highlightGrid} data-reveal style={{ '--reveal-delay': '0.2s' }}>
                 {securityHighlights.flat().map((item) => (
                   <article className={styles.highlightCard} key={item.title}>
                     <div className={styles.chip}>
@@ -233,15 +197,15 @@ export function SecurityPage() {
                     </div>
                   </article>
                 ))}
-              </motion.div>
+              </div>
 
-              <motion.div className={styles.divider} variants={itemVariants}>
+              <div className={styles.divider} data-reveal style={{ '--reveal-delay': '0.3s' }}>
                 <span aria-hidden="true" />
                 <p>Compliance Checklist</p>
                 <span aria-hidden="true" />
-              </motion.div>
+              </div>
 
-              <motion.div className={styles.checklistGrid} variants={itemVariants}>
+              <div className={styles.checklistGrid} data-reveal style={{ '--reveal-delay': '0.4s' }}>
                 {complianceChecklist.flat().map((item) => (
                   <article className={styles.checklistItem} key={item.title}>
                     <span className={styles.checkIcon}>
@@ -253,21 +217,15 @@ export function SecurityPage() {
                     </div>
                   </article>
                 ))}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </Container>
         </section>
 
         <section className={styles.trustCenter} aria-labelledby="trust-center-title">
           <Container>
-            <motion.div
-              className={styles.trustCenterInner}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.24 }}
-              variants={containerVariants}
-            >
-              <motion.div className={styles.trustCenterCopy} variants={itemVariants}>
+            <div className={styles.trustCenterInner}>
+              <div className={styles.trustCenterCopy} data-reveal style={{ '--reveal-delay': '0.1s' }}>
                 <div className={styles.trustCenterHeader}>
                   <p className={styles.sectionEyebrow}>Trust Center</p>
                   <h2 id="trust-center-title">
@@ -295,12 +253,12 @@ export function SecurityPage() {
                     Request Documentation Under NDA
                   </a>
                 </div>
-              </motion.div>
+              </div>
 
-              <motion.div className={styles.trustCenterVisual} variants={itemVariants}>
+              <div className={styles.trustCenterVisual} data-reveal style={{ '--reveal-delay': '0.2s' }}>
                 <img src={trustCenterImage} alt="Associum trust center dashboard" />
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </Container>
         </section>
 
@@ -309,20 +267,19 @@ export function SecurityPage() {
             <img src={metricsBackground} alt="" />
           </div>
           <Container>
-            <motion.div
-              className={styles.metricsGrid}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.36 }}
-              variants={containerVariants}
-            >
-              {securityMetrics.map((metric) => (
-                <motion.article className={styles.metricTile} variants={itemVariants} key={metric.value}>
+            <div className={styles.metricsGrid}>
+              {securityMetrics.map((metric, i) => (
+                <article
+                  className={styles.metricTile}
+                  data-reveal
+                  style={{ '--reveal-delay': `${0.1 + i * 0.1}s` }}
+                  key={metric.value}
+                >
                   <strong>{metric.value}</strong>
                   <p>{metric.label}</p>
-                </motion.article>
+                </article>
               ))}
-            </motion.div>
+            </div>
           </Container>
         </section>
 
@@ -335,6 +292,6 @@ export function SecurityPage() {
           footnote="No credit card required"
         />
       </main>
-    </PageTransition>
+    </>
   );
 }

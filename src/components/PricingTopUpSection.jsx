@@ -1,30 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Container } from './Container';
 import styles from './PricingTopUpSection.module.scss';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 const topUpPacks = [
   {
@@ -50,21 +26,20 @@ export function PricingTopUpSection({ variant = 'dark' }) {
   return (
     <section className={`${styles.section} ${variant === 'light' ? styles.light : ''}`} aria-labelledby="pricing-top-up-title">
       <Container>
-        <motion.div
-          className={styles.inner}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-        >
-          <motion.div className={styles.header} variants={itemVariants}>
+        <div className={styles.inner}>
+          <div className={styles.header} data-reveal style={{ '--reveal-delay': '0.2s' }}>
             <h2 id="pricing-top-up-title">Need More Credits?</h2>
             <p>Top up at any time. Add-on packs never expire and are available on all paid plans.</p>
-          </motion.div>
+          </div>
 
           <div className={styles.grid}>
-            {topUpPacks.map((pack) => (
-              <motion.article key={pack.credits} className={styles.card} variants={itemVariants}>
+            {topUpPacks.map((pack, i) => (
+              <article
+                key={pack.credits}
+                className={styles.card}
+                data-reveal
+                style={{ '--reveal-delay': `${0.1 + i * 0.1}s` }}
+              >
                 {pack.savings ? <div className={styles.savingsTag}>{pack.savings}</div> : null}
 
                 <div className={styles.cardContent}>
@@ -77,10 +52,10 @@ export function PricingTopUpSection({ variant = 'dark' }) {
                   <p className={styles.price}>{pack.price}</p>
                   <p className={styles.unitPrice}>{pack.unitPrice}</p>
                 </div>
-              </motion.article>
+              </article>
             ))}
           </div>
-        </motion.div>
+        </div>
       </Container>
     </section>
   );

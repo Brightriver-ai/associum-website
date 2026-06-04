@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Container } from './Container';
 import styles from './SecuritySection.module.scss';
 import noTrainingIcon from '../assets/homepage/security-no-model-training.svg?url';
@@ -40,54 +39,27 @@ const securityCards = [
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
 export function SecuritySection() {
   return (
     <section className={styles.section} aria-labelledby="security-title">
       <Container>
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={containerVariants}
-        >
+        <div>
           <div className={styles.header}>
-            <motion.p className={styles.eyebrow} variants={itemVariants}>Security &amp; Compliance</motion.p>
-            <motion.h2 id="security-title" variants={itemVariants}>Security at Enterprise Standards</motion.h2>
-            <motion.p className={styles.description} variants={itemVariants}>
+            <p className={styles.eyebrow} data-reveal>Security &amp; Compliance</p>
+            <h2 id="security-title" data-reveal style={{ '--reveal-delay': '0.1s' }}>Security at Enterprise Standards</h2>
+            <p className={styles.description} data-reveal style={{ '--reveal-delay': '0.2s' }}>
               We never train our models on your data. Everything is encrypted, permissioned, and
               monitored — across every plan, from day one.
-            </motion.p>
+            </p>
           </div>
 
           <div className={styles.grid}>
-            {securityCards.map((card, index) => (
-              <motion.article
+            {securityCards.map((card, i) => (
+              <article
                 key={card.title}
-                className={`${styles.card} ${index < securityCards.length - 1 ? styles.cardWithDivider : ''}`}
-                variants={itemVariants}
+                className={`${styles.card} ${i < securityCards.length - 1 ? styles.cardWithDivider : ''}`}
+                data-reveal
+                style={{ '--reveal-delay': `${0.1 + i * 0.1}s` }}
               >
                 <span className={styles.chip}>{card.chip}</span>
                 <div className={styles.cardTitleRow}>
@@ -95,11 +67,11 @@ export function SecuritySection() {
                   <h3>{card.title}</h3>
                 </div>
                 <p>{card.description}</p>
-              </motion.article>
+              </article>
             ))}
           </div>
 
-          <motion.div className={styles.badgesContainer} variants={itemVariants}>
+          <div className={styles.badgesContainer} data-reveal>
             <div className={styles.badge}>
               <img src={isoLogo} alt="ISO 27001 Certified" className={styles.badgeImage} />
               <p className={styles.badgeText}>ISO 27001</p>
@@ -108,8 +80,8 @@ export function SecuritySection() {
               <img src={socLogo} alt="SOC 2 Type II Certified" className={styles.badgeImage} />
               <p className={styles.badgeText}>SOC2 Type II</p>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </Container>
     </section>
   );

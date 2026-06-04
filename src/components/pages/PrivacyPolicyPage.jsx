@@ -1,32 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Container } from '../Container';
 import styles from './PrivacyPolicyPage.module.scss';
 import heroTexture from '../../assets/about/about-hero-texture.webp?url';
 import heroGlow from '../../assets/about/about-hero-glow.webp?url';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 1,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 const introParagraphs = [
   'This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.',
@@ -143,41 +119,30 @@ export function PrivacyPolicyPage() {
         </div>
 
         <Container>
-          <motion.div
-            className={styles.heroInner}
-            initial="visible"
-            animate="visible"
-            variants={containerVariants}
-          >
-            <motion.h1 id="privacy-policy-title" variants={itemVariants}>
+          <div className={styles.heroInner}>
+            <h1 id="privacy-policy-title" data-reveal style={{ '--reveal-delay': '0.2s' }}>
               Privacy Policy
-            </motion.h1>
-            <motion.p className={styles.heroDate} variants={itemVariants}>
+            </h1>
+            <p className={styles.heroDate} data-reveal style={{ '--reveal-delay': '0.3s' }}>
               Last updated: February 10, 2025
-            </motion.p>
-            <motion.div className={styles.heroSummary} variants={itemVariants}>
+            </p>
+            <div className={styles.heroSummary} data-reveal style={{ '--reveal-delay': '0.4s' }}>
               {introParagraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </Container>
       </section>
 
       <section className={styles.policySection} aria-labelledby="privacy-policy-content-title">
         <Container>
-          <motion.div
-            className={styles.policyCard}
-            initial="visible"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.06 }}
-            variants={containerVariants}
-          >
-            <motion.h2 id="privacy-policy-content-title" className={styles.policyTitle} variants={itemVariants}>
+          <div className={styles.policyCard} data-reveal>
+            <h2 id="privacy-policy-content-title" className={styles.policyTitle} data-reveal>
               Privacy Policy
-            </motion.h2>
+            </h2>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h3>Interpretation and Definitions</h3>
 
               <div className={styles.subBlock}>
@@ -194,9 +159,9 @@ export function PrivacyPolicyPage() {
                 <p>For the purposes of this Privacy Policy:</p>
                 <BulletList items={definitionItems} />
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h3>Collecting and Using Your Personal Data</h3>
 
               <div className={styles.subBlock}>
@@ -273,17 +238,17 @@ export function PrivacyPolicyPage() {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Use of Your Personal Data</h4>
               <p>The Company may use Personal Data for the following purposes:</p>
               <BulletList items={useOfPersonalDataItems} />
               <p>We may share Your personal information in the following situations:</p>
               <BulletList items={shareItems} />
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Retention of Your Personal Data</h4>
               <PolicyParagraphs
                 paragraphs={[
@@ -291,9 +256,9 @@ export function PrivacyPolicyPage() {
                   'The Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.',
                 ]}
               />
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Transfer of Your Personal Data</h4>
               <PolicyParagraphs
                 paragraphs={[
@@ -302,9 +267,9 @@ export function PrivacyPolicyPage() {
                   'The Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.',
                 ]}
               />
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Delete Your Personal Data</h4>
               <PolicyParagraphs
                 paragraphs={[
@@ -314,9 +279,9 @@ export function PrivacyPolicyPage() {
                   'Please note, however, that We may need to retain certain information when we have a legal obligation or lawful basis to do so.',
                 ]}
               />
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Disclosure of Your Personal Data</h4>
 
               <div className={styles.subBlock}>
@@ -345,9 +310,9 @@ export function PrivacyPolicyPage() {
                 </p>
                 <BulletList items={legalRequirementItems} />
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Security of Your Personal Data</h4>
               <p>
                 The security of Your Personal Data is important to Us, but remember that no
@@ -355,9 +320,9 @@ export function PrivacyPolicyPage() {
                 secure. While We strive to use commercially acceptable means to protect Your
                 Personal Data, We cannot guarantee its absolute security.
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Children&apos;s Privacy</h4>
               <PolicyParagraphs
                 paragraphs={[
@@ -365,9 +330,9 @@ export function PrivacyPolicyPage() {
                   "If We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent's consent before We collect and use that information.",
                 ]}
               />
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Links to Other Websites</h4>
               <PolicyParagraphs
                 paragraphs={[
@@ -375,9 +340,9 @@ export function PrivacyPolicyPage() {
                   'We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.',
                 ]}
               />
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Changes to this Privacy Policy</h4>
               <PolicyParagraphs
                 paragraphs={[
@@ -386,9 +351,9 @@ export function PrivacyPolicyPage() {
                   'You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.',
                 ]}
               />
-            </motion.div>
+            </div>
 
-            <motion.div className={styles.policyBlock} variants={itemVariants}>
+            <div className={styles.policyBlock} data-reveal>
               <h4>Contact Us</h4>
               <p>
                 If you have any questions regarding this Privacy Policy, please contact us{' '}
@@ -397,8 +362,8 @@ export function PrivacyPolicyPage() {
                 </a>
                 .
               </p>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </Container>
       </section>
     </main>

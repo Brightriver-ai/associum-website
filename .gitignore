@@ -9,3 +9,6 @@ build
 
 # Astro
 .astro/
+
+# Local preview tooling config (machine-specific paths)
+.claude/launch.json
