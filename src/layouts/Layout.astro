@@ -48,7 +48,44 @@ const {
   canonical,
   preloadImages = [],
   noindex = false,
+  // Per-page JSON-LD objects (e.g. FAQPage, Product). The sitewide Organization
+  // and WebSite schemas below are always emitted; pages append their own.
+  structuredData = [],
 } = Astro.props;
+
+// Sitewide structured data. Organization powers the Google knowledge panel /
+// brand entity; WebSite establishes the canonical site name. Emitted on every
+// page (search engines dedupe by @id/@type).
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
+  name: 'Associum',
+  url: `${SITE_URL}/`,
+  logo: `${SITE_URL}/android-chrome-512x512.png`,
+  description:
+    'Associum is an AI associate that completes the full professional production cycle — data, research, analysis, and finished documents — for finance, consulting, accounting, and legal professionals.',
+  sameAs: [
+    'https://www.linkedin.com/company/associumai/about/',
+    'https://x.com/AssociumAI',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'support@associum.ai',
+    contactType: 'customer support',
+  },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  name: 'Associum',
+  url: `${SITE_URL}/`,
+  publisher: { '@id': `${SITE_URL}/#organization` },
+};
+
+const jsonLd = [orgSchema, websiteSchema, ...structuredData];
 
 // Astro.url.pathname includes a trailing ".html" under build.format: 'file'
 // (and a trailing slash under 'directory'). Normalize to a clean route path
@@ -68,6 +105,8 @@ const ogUrl = fullCanonical ?? `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
 
     {gtmEnabled && <Fragment set:html={gtmHead} />}
 
@@ -116,6 +155,12 @@ const ogUrl = fullCanonical ?? `${SITE_URL}${cleanPath === '/' ? '/' : cleanPath
     {/* Client-side routing: prefetched pages swap instantly with a cross-fade and
         no browser loader. Light re-hydration thanks to the de-hydrated pages. */}
     <ClientRouter />
+
+    {/* Structured data (JSON-LD): sitewide Organization + WebSite, plus any
+        per-page schemas passed via the `structuredData` prop. */}
+    {jsonLd.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
   </head>
   <body>
     {gtmEnabled && <Fragment set:html={gtmBody} />}

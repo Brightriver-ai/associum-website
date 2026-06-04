@@ -6,6 +6,19 @@ import { PricingPlansSection } from '../components/PricingPlansSection.jsx';
 import { PricingComparisonTableSection } from '../components/PricingComparisonTableSection.jsx';
 import { PricingTopUpSection } from '../components/PricingTopUpSection.jsx';
 import { PricingFaqSection } from '../components/PricingFaqSection.jsx';
+import { pricingFaqGroups } from '../data/pricingFaq.js';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: pricingFaqGroups.flatMap((group) =>
+    group.items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  ),
+};
 ---
 <Layout
   title="Pricing — Associum"
@@ -13,6 +26,7 @@ import { PricingFaqSection } from '../components/PricingFaqSection.jsx';
   ogTitle="Pricing — Associum"
   ogDescription="Simple, output-based pricing with no seat limits. Pay only for the actual research, reports, and analytical work you run."
   canonical="/pricing"
+  structuredData={[faqSchema]}
 >
   <main>
     <PricingPage />
