@@ -121,6 +121,8 @@ export function ContactSupportSection() {
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
   const emailHasValue = emailValue.length > 0;
   const nameValue = formValues.name.trim();
+  const phoneValue = formValues.phone.trim();
+  const phoneValid = phoneValue.length === 0 || /^\+?[\d\s\-().]{7,20}$/.test(phoneValue);
   const messageValue = formValues.message.trim();
   const companyValue = formValues.company.trim();
   const roleValue = formValues.role.trim();
@@ -134,6 +136,8 @@ export function ContactSupportSection() {
       : touchedFields.email && !emailValid
         ? 'Please enter a valid email address.'
         : '';
+  const phoneError =
+    touchedFields.phone && !phoneValid ? 'Please enter a valid phone number.' : '';
   const companyError =
     touchedFields.company && companyValue.length === 0 ? 'Company is required.' : '';
   const roleError =
@@ -146,6 +150,7 @@ export function ContactSupportSection() {
     nameValue.length > 0 &&
     emailHasValue &&
     emailValid &&
+    phoneValid &&
     companyValue.length > 0 &&
     roleValue.length > 0 &&
     inquiryTypeValue.length > 0 &&
@@ -302,6 +307,7 @@ export function ContactSupportSection() {
                         value={formValues.phone}
                         onChange={handleFieldChange('phone')}
                         onBlur={handleFieldBlur('phone')}
+                        error={phoneError}
                       />
                     </div>
 
