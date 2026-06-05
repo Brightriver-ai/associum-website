@@ -121,7 +121,6 @@ export function ContactSupportSection() {
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
   const emailHasValue = emailValue.length > 0;
   const nameValue = formValues.name.trim();
-  const phoneValue = formValues.phone.trim();
   const messageValue = formValues.message.trim();
   const companyValue = formValues.company.trim();
   const roleValue = formValues.role.trim();
@@ -135,8 +134,6 @@ export function ContactSupportSection() {
       : touchedFields.email && !emailValid
         ? 'Please enter a valid email address.'
         : '';
-  const phoneError =
-    touchedFields.phone && phoneValue.length === 0 ? 'Phone number is required.' : '';
   const companyError =
     touchedFields.company && companyValue.length === 0 ? 'Company is required.' : '';
   const roleError =
@@ -149,7 +146,6 @@ export function ContactSupportSection() {
     nameValue.length > 0 &&
     emailHasValue &&
     emailValid &&
-    phoneValue.length > 0 &&
     companyValue.length > 0 &&
     roleValue.length > 0 &&
     inquiryTypeValue.length > 0 &&
@@ -302,12 +298,10 @@ export function ContactSupportSection() {
                       <ContactField
                         label="Phone"
                         placeholder="+1 (555) 000-0000"
-                        required
                         className={styles.rowField}
                         value={formValues.phone}
                         onChange={handleFieldChange('phone')}
                         onBlur={handleFieldBlur('phone')}
-                        error={phoneError}
                       />
                     </div>
 
